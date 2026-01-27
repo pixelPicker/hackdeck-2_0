@@ -16,6 +16,9 @@ import { StatusBar } from "expo-status-bar";
 import "react-native-reanimated";
 
 import { useColorScheme } from "@/hooks/use-color-scheme";
+import { LocalDatabase } from "@/services/local-db";
+import { SyncService } from "@/services/sync-service";
+import { useEffect } from "react";
 
 export const unstable_settings = {
   anchor: "(tabs)",
@@ -31,9 +34,17 @@ export default function RootLayout() {
 
   const colorScheme = useColorScheme();
 
-  if (!loaded) return null;
+  useEffect(() => {
+    if (loaded) {
+      // Initialize local database and start auto-sync
+      LocalDatabase.init().then(() => {
+        SyncService.startAutoSync();
+      });
+      SplashScreen.hideAsync();
+    }
+  }, [loaded]);
 
-  SplashScreen.hideAsync();
+  if (!loaded) return null;
 
   return (
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>

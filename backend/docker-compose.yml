@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  db:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_USER: crop_user
+      POSTGRES_PASSWORD: crop_password
+      POSTGRES_DB: crop_disease_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - crop-network
+
+  # Redis Cache
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    networks:
+      - crop-network
+
+  # FastAPI Backend
+  backend:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_URL: postgresql+asyncpg://crop_user:crop_password@db:5432/crop_disease_db
+      REDIS_URL: redis://redis:6379
+    depends_on:
+      - db
+      - redis
+    volumes:
+      - ./models:/app/models
+      - ./uploads:/app/uploads
+    networks:
+      - crop-network
+
+volumes:
+  postgres_data:
+
+networks:
+  crop-network:
+    driver: bridge
