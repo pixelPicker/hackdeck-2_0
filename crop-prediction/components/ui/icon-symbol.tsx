@@ -12,13 +12,15 @@ type IconConfig = {
 };
 
 const ICON_MAP: Record<string, IconConfig> = {
+  // BOTTOMBAR ICONS
   house: { lib: "Feather", name: "home" },
   camera: { lib: "Feather", name: "camera" },
   clock: { lib: "Feather", name: "clock" },
-  settings: { lib: "Feather", name: "settings" },
   user: { lib: "Feather", name: "user" },
 
-  // 🌿 agriculture
+  settings: { lib: "Feather", name: "settings" },
+  bell: { lib: "Feather", name: "bell" },
+
   leaf: { lib: "FontAwesome6", name: "leaf" },
   wheat: { lib: "FontAwesome6", name: "wheat-awn" },
   plant: { lib: "FontAwesome6", name: "seedling" },

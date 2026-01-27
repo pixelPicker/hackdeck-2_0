@@ -5,15 +5,60 @@ import { HapticTab } from "@/components/haptic-tab";
 import { IconSymbol } from "@/components/ui/icon-symbol";
 import { Colors } from "@/constants/theme";
 import { useColorScheme } from "@/hooks/use-color-scheme";
+import { StyleSheet, Text, View } from "react-native";
+import { ThemedText } from "@/components/themed-text";
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
+
+  const getGreeting = () => {
+    const hour = new Date().getHours();
+
+    if (hour < 12) return "Good Morning";
+    if (hour < 17) return "Good Afternoon";
+    if (hour < 21) return "Good Evening";
+    return "Good Night";
+  };
 
   return (
     <Tabs
       screenOptions={{
         tabBarActiveTintColor: Colors[colorScheme ?? "light"].tint,
-        headerShown: false,
+        tabBarLabelStyle: {
+          fontSize: 12,
+        },
+        headerTransparent: true,
+        headerStyle: { backgroundColor: "transparent" },
+        headerShown: true,
+        headerLeft: () => (
+          <View
+            style={{
+              flexDirection: "column",
+              alignItems: "flex-start",
+              marginLeft: 16,
+            }}
+          >
+            <ThemedText style={{ fontSize: 12, color: "#101010" }}>
+              {getGreeting()}
+            </ThemedText>
+            <ThemedText
+              style={{ fontSize: 20, color: "#101010" }}
+              type="defaultMedium"
+            >
+              Welcome To Croppy
+            </ThemedText>
+          </View>
+        ),
+        headerRight: () => (
+          <IconSymbol
+            name="bell"
+            size={24}
+            color="#101010"
+            style={{ marginRight: 16 }}
+          />
+        ),
+        headerTitle: "",
+        headerShadowVisible: false,
         tabBarButton: HapticTab,
       }}
     >
@@ -21,8 +66,9 @@ export default function TabLayout() {
         name="index"
         options={{
           title: "Home",
+          headerTitle: "",
           tabBarIcon: ({ color }) => (
-            <IconSymbol size={28} name="house" color={color} />
+            <IconSymbol size={24} name="house" color={color} />
           ),
         }}
       />
@@ -31,7 +77,7 @@ export default function TabLayout() {
         options={{
           title: "Diagnose",
           tabBarIcon: ({ color }) => (
-            <IconSymbol size={28} name="camera" color={color} />
+            <IconSymbol size={24} name="camera" color={color} />
           ),
         }}
       />
@@ -40,7 +86,7 @@ export default function TabLayout() {
         options={{
           title: "History",
           tabBarIcon: ({ color }) => (
-            <IconSymbol size={28} name="clock" color={color} />
+            <IconSymbol size={24} name="clock" color={color} />
           ),
         }}
       />
@@ -49,10 +95,18 @@ export default function TabLayout() {
         options={{
           title: "Profile",
           tabBarIcon: ({ color }) => (
-            <IconSymbol size={28} name="user" color={color} />
+            <IconSymbol size={24} name="user" color={color} />
           ),
         }}
       />
     </Tabs>
   );
 }
+
+const styles = StyleSheet.create({
+  default: {},
+  defaultSemiBold: {},
+  title: {
+    fontSize: 24,
+  },
+});

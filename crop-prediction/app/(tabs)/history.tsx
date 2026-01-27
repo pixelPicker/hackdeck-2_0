@@ -9,9 +9,7 @@ export default function TabThreeScreen() {
     <ThemedView style={styles.container}>
       <IconSymbol name="leaf" size={48} color="#22c55e" />
 
-      <ThemedText type="title" style={styles.title}>
-        No scans yet
-      </ThemedText>
+      <ThemedText type="title" style={styles.title}></ThemedText>
 
       <ThemedText style={styles.subtitle}>
         Your crop diagnosis history will appear here.
