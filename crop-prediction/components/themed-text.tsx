@@ -43,18 +43,15 @@ export function ThemedText({
 const styles = StyleSheet.create({
   default: {
     fontSize: 16,
-    lineHeight: 24,
     fontFamily: "Manrope_400Regular",
   },
   defaultMedium: {
     fontSize: 16,
-    lineHeight: 24,
     fontWeight: "600",
     fontFamily: "Manrope_500Medium",
   },
   defaultSemiBold: {
     fontSize: 16,
-    lineHeight: 24,
     fontWeight: "600",
     fontFamily: "Manrope_600SemiBold",
   },

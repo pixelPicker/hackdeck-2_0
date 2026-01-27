@@ -1,107 +1,144 @@
-import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
+import { StyleSheet, View, Pressable } from "react-native";
+import { Image } from "expo-image";
+import ParallaxScrollView from "@/components/parallax-scroll-view";
+import { ThemedText } from "@/components/themed-text";
+import { ThemedView } from "@/components/themed-view";
+import { IconSymbol } from "@/components/ui/icon-symbol";
+import { ActionPill } from "@/components/ActionPill";
+import { useState } from "react";
+import { router } from "expo-router";
 
-import { HelloWave } from '@/components/hello-wave';
-import ParallaxScrollView from '@/components/parallax-scroll-view';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { Link } from 'expo-router';
+const getGreeting = () => {
+  const hour = new Date().getHours();
+  if (hour < 12) return "Good Morning";
+  if (hour < 17) return "Good Afternoon";
+  if (hour < 21) return "Good Evening";
+  return "Good Night";
+};
 
 export default function HomeScreen() {
-  return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: "#faf6f1", dark: "#faf6f1" }}
-      headerImage={
-        <Image
-          source={require("@/assets/images/partial-react-logo.png")}
-          style={styles.reactLogo}
-        />
-      }
-    >
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit{" "}
-          <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText>{" "}
-          to see changes. Press{" "}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: "cmd + d",
-              android: "cmd + m",
-              web: "F12",
-            })}
-          </ThemedText>{" "}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <Link href="/modal">
-          <Link.Trigger>
-            <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-          </Link.Trigger>
-          <Link.Preview />
-          <Link.Menu>
-            <Link.MenuAction
-              title="Action"
-              icon="cube"
-              onPress={() => alert("Action pressed")}
-            />
-            <Link.MenuAction
-              title="Share"
-              icon="square.and.arrow.up"
-              onPress={() => alert("Share pressed")}
-            />
-            <Link.Menu title="More" icon="ellipsis">
-              <Link.MenuAction
-                title="Delete"
-                icon="trash"
-                destructive
-                onPress={() => alert("Delete pressed")}
-              />
-            </Link.Menu>
-          </Link.Menu>
-        </Link>
+  const [hasSubmittedShit, setHasSubmittedShit] = useState(false);
 
-        <ThemedText>
-          {`Tap the Explore tab to learn more about what's included in this starter app.`}
+  return (
+    <View
+      style={{
+        flex: 1,
+        backgroundColor: "#faf6f1",
+      }}
+    >
+      {/* 🔵 HERO CARD */}
+      {hasSubmittedShit ? (
+        <ThemedView style={styles.heroCard}>
+          <IconSymbol name="leaf" size={40} color="#fff" />
+
+          <ThemedText
+            type="defaultMedium"
+            style={{
+              color: "#101010",
+              fontSize: 32,
+              textAlign: hasSubmittedShit ? "left" : "center",
+            }}
+          >
+            {hasSubmittedShit
+              ? "Your Croppy Summary"
+              : "Check your crops' health with AI"}
+          </ThemedText>
+
+          <Pressable style={styles.scanButton}>
+            <IconSymbol name="camera" size={20} color="#101010" />
+            <ThemedText style={styles.scanText} type="defaultMedium">
+              Scan Leaf
+            </ThemedText>
+          </Pressable>
+        </ThemedView>
+      ) : (
+        <ThemedView
+          style={{
+            flex: 1,
+            flexDirection: "column",
+            justifyContent: "center",
+            alignSelf: "center",
+            backgroundColor: "#0000",
+          }}
+        >
+          <Image
+            source={require("@/assets/images/empty-leaf.png")}
+            style={{ width: 350, height: 250 }}
+            contentFit="contain"
+          />
+          <ThemedText
+            type="defaultMedium"
+            style={{
+              color: "#101010",
+              fontSize: 24,
+              textAlign: hasSubmittedShit ? "left" : "center",
+            }}
+          >
+            No scans yet.{"\n"}Try your first scan.
+          </ThemedText>
+          <Pressable
+            style={styles.scanButton}
+            onPress={() => router.push("/diagnose")}
+          >
+            <IconSymbol name="camera" size={20} color="#101010" />
+            <ThemedText style={styles.scanText}>Scan Leaf</ThemedText>
+          </Pressable>
+        </ThemedView>
+      )}
+      {/* ⚪ RECENT / EMPTY STATE */}
+      {/* <ThemedView style={styles.section}>
+        <ThemedText type="subtitle">Recent Scan</ThemedText>
+        <ThemedText style={{ opacity: 0.7 }}>
+          No scans yet. Scan your first crop to get started.
         </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          {`When you're ready, run `}
-          <ThemedText type="defaultSemiBold">
-            npm run reset-project
-          </ThemedText>{" "}
-          to get a fresh <ThemedText type="defaultSemiBold">app</ThemedText>{" "}
-          directory. This will move the current{" "}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{" "}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+      </ThemedView> */}
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
+  heroCard: {
+    borderRadius: 24,
+    padding: 24,
+    alignItems: "center",
+    marginBottom: 24,
+    paddingTop: 160,
+    borderBottomLeftRadius: 40,
+    borderBottomRightRadius: 40,
+    paddingBottom: 40,
   },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
+  greeting: {
+    fontSize: 22,
+    marginTop: 12,
+    color: "#fff",
   },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
+  subtitle: {
+    marginTop: 4,
+    color: "#e0e6ff",
+  },
+  scanButton: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#feb03b",
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    alignSelf: "center",
+    borderRadius: 999,
+    marginTop: 20,
+  },
+  scanText: {
+    marginLeft: 8,
+    color: "#101010",
+  },
+  quickActions: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 24,
+  },
+
+  section: {
+    padding: 16,
+    borderRadius: 16,
+    backgroundColor: "#fafafa",
   },
 });

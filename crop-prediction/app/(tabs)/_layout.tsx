@@ -27,6 +27,11 @@ export default function TabLayout() {
         tabBarLabelStyle: {
           fontSize: 12,
         },
+        tabBarStyle: {
+          elevation: 0, // 👈 Android
+          shadowColor: "transparent", // 👈 iOS
+          borderTopWidth: 0, //
+        },
         headerTransparent: true,
         headerStyle: { backgroundColor: "transparent" },
         headerShown: true,
