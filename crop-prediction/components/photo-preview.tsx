@@ -41,21 +41,29 @@ export function PhotoPreview({
       </View>
 
       <View style={styles.actionsContainer}>
-        <ThemedText style={styles.label}>
-          Review your photo before submitting
-        </ThemedText>
-
+        <View
+          style={{
+            gap: 8,
+            marginBottom: 16,
+            flexDirection: "row",
+            alignItems: "center",
+          }}
+        >
+          <MaterialCommunityIcons
+            name="information-outline"
+            size={16}
+            color="#666"
+          />
+          <ThemedText style={styles.label}>
+            Review your photo before submitting
+          </ThemedText>
+        </View>
         <View style={styles.buttonGroup}>
           <TouchableOpacity
             style={[styles.button, styles.retakeButton]}
             onPress={onRetake}
             disabled={isSubmitting}
           >
-            <MaterialCommunityIcons
-              name="camera-rear"
-              size={24}
-              color="#22c55e"
-            />
             <ThemedText style={styles.retakeButtonText}>Retake</ThemedText>
           </TouchableOpacity>
 
@@ -68,7 +76,6 @@ export function PhotoPreview({
               <ActivityIndicator size="small" color="white" />
             ) : (
               <>
-                <MaterialCommunityIcons name="check" size={24} color="white" />
                 <ThemedText style={styles.submitButtonText}>Submit</ThemedText>
               </>
             )}
@@ -97,14 +104,12 @@ const styles = StyleSheet.create({
   },
   actionsContainer: {
     paddingHorizontal: 24,
-    paddingVertical: 32,
-    borderTopWidth: 1,
-    borderTopColor: "#e5e7eb",
+    paddingVertical: 16,
   },
   label: {
     fontSize: 16,
     fontWeight: "500",
-    marginBottom: 24,
+    marginBottom: 2,
     textAlign: "center",
     color: "#666",
   },
@@ -116,26 +121,21 @@ const styles = StyleSheet.create({
   button: {
     flex: 1,
     paddingVertical: 14,
-    borderRadius: 10,
+    borderRadius: 9999,
     justifyContent: "center",
     alignItems: "center",
     flexDirection: "row",
     gap: 8,
-    elevation: 2,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.2,
-    shadowRadius: 2,
   },
   retakeButton: {
-    backgroundColor: "#f3f4f6",
+    backgroundColor: "#ddd",
     borderWidth: 1.5,
-    borderColor: "#22c55e",
+    borderColor: "#ddd",
   },
   retakeButtonText: {
     fontSize: 14,
     fontWeight: "600",
-    color: "#22c55e",
+    color: "#999",
   },
   submitButton: {
     backgroundColor: "#22c55e",

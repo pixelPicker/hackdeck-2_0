@@ -1,18 +1,21 @@
 import { useState } from "react";
 import { StyleSheet, Alert } from "react-native";
-import { useFocusEffect } from "expo-router";
+import { router, useFocusEffect } from "expo-router";
 
 import { ThemedText } from "@/components/themed-text";
 import { ThemedView } from "@/components/themed-view";
 import { IconSymbol } from "@/components/ui/icon-symbol";
 import { CameraScreen } from "@/components/camera-screen";
 import { PhotoPreview } from "@/components/photo-preview";
+import { Image } from "expo-image";
+import { Pulse } from "@/components/ui/Pulse";
 
-type ScreenState = "empty" | "camera" | "preview";
+type ScreenState = "empty" | "camera" | "preview" | "processing";
 
 export default function TabTwoScreen() {
   const [screenState, setScreenState] = useState<ScreenState>("empty");
   const [selectedPhotoUri, setSelectedPhotoUri] = useState<string | null>(null);
+  const [isModelProcessing, setIsModelProcessing] = useState(false);
 
   useFocusEffect(() => {
     if (screenState === "empty") {
@@ -31,11 +34,19 @@ export default function TabTwoScreen() {
   };
 
   const handleSubmit = (photoUri: string) => {
-    // TODO: Call ML model API here
-    Alert.alert("Success", `Photo submitted for analysis:\n${photoUri}`);
-    // After successful submission, you might want to reset to empty state
-    setSelectedPhotoUri(null);
-    setScreenState("empty");
+    setIsModelProcessing(true);
+    setScreenState("processing");
+    // TODO: Call ML model API here instead of faking it and save data to local storage
+    setTimeout(() => {
+      setSelectedPhotoUri(null);
+      setIsModelProcessing(false);
+      setScreenState("empty");
+      router.push({ pathname: "/results/[id]", params: { id: "48395738" } });
+    }, 2000);
+
+    // setSelectedPhotoUri(null);
+    // setIsModelProcessing(false);
+    // setScreenState("empty");
   };
 
   if (screenState === "camera") {
@@ -52,6 +63,22 @@ export default function TabTwoScreen() {
     );
   }
 
+  if (screenState === "processing" && isModelProcessing) {
+    return (
+      <ThemedView style={styles.container}>
+        <Pulse>
+          <Image
+            source={require("@/assets/images/circle-leaf.png")}
+            style={{ width: 150, height: 150 }}
+            contentFit="contain"
+          />
+        </Pulse>
+        <ThemedText style={{}}>
+          Please wait while the model is processing
+        </ThemedText>
+      </ThemedView>
+    );
+  }
   return (
     <ThemedView style={styles.container}>
       <IconSymbol name="leaf" size={48} color="#22c55e" />

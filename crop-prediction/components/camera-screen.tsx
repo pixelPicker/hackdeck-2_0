@@ -131,7 +131,7 @@ export function CameraScreen({ onPhotoCapture }: CameraScreenProps) {
             <MaterialCommunityIcons
               name="image-plus"
               size={28}
-              color="#22c55e"
+              color="#444444"
             />
           </TouchableOpacity>
 
@@ -181,7 +181,7 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
     borderRadius: 25,
-    backgroundColor: "rgba(0, 0, 0, 0.4)",
+    backgroundColor: "44444444",
     justifyContent: "center",
     alignItems: "center",
   },
@@ -201,7 +201,7 @@ const styles = StyleSheet.create({
   },
   bottomContent: {
     position: "absolute",
-    bottom: 60,
+    bottom: 30,
     left: 0,
     right: 0,
     justifyContent: "center",
@@ -214,11 +214,9 @@ const styles = StyleSheet.create({
     width: 70,
     height: 70,
     borderRadius: 35,
-    backgroundColor: "#22c55e",
+    backgroundColor: "#444444",
     justifyContent: "center",
     alignItems: "center",
-    borderWidth: 4,
-    borderColor: "rgba(34, 197, 94, 0.3)",
     elevation: 4,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
@@ -247,7 +245,7 @@ const styles = StyleSheet.create({
     marginBottom: 24,
   },
   permissionButton: {
-    backgroundColor: "#22c55e",
+    backgroundColor: "#feb03b",
     paddingVertical: 12,
     paddingHorizontal: 32,
     borderRadius: 8,

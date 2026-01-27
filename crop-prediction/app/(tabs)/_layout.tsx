@@ -84,15 +84,19 @@ export default function TabLayout() {
           tabBarIcon: ({ color }) => (
             <IconSymbol size={24} name="camera" color={color} />
           ),
+          headerLeft: undefined,
+          headerRight: undefined,
         }}
       />
       <Tabs.Screen
-        name="history"
+        name="results"
         options={{
-          title: "History",
+          title: "Results",
           tabBarIcon: ({ color }) => (
             <IconSymbol size={24} name="clock" color={color} />
           ),
+          headerLeft: undefined,
+          headerRight: undefined,
         }}
       />
       <Tabs.Screen
