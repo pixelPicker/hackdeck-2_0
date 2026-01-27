@@ -1,0 +1,16 @@
+# For Training and Model Handling
+tensorflow==2.15.0
+keras==3.0.0
+huggingface_hub
+numpy
+pandas
+scikit-learn
+
+# For Image Processing
+opencv-python
+Pillow
+
+# For Local Testing API
+fastapi
+uvicorn
+python-multipart
