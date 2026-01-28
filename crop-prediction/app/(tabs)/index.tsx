@@ -7,6 +7,7 @@ import { IconSymbol } from "@/components/ui/icon-symbol";
 import { ActionPill } from "@/components/ActionPill";
 import { useState } from "react";
 import { router } from "expo-router";
+import HomeDashboard from "@/components/HomeDashboard";
 
 const getGreeting = () => {
   const hour = new Date().getHours();
@@ -17,7 +18,7 @@ const getGreeting = () => {
 };
 
 export default function HomeScreen() {
-  const [hasSubmittedShit, setHasSubmittedShit] = useState(false);
+  const [hasSubmittedShit, setHasSubmittedShit] = useState(true);
 
   return (
     <View
@@ -28,29 +29,7 @@ export default function HomeScreen() {
     >
       {/* 🔵 HERO CARD */}
       {hasSubmittedShit ? (
-        <ThemedView style={styles.heroCard}>
-          <IconSymbol name="leaf" size={40} color="#fff" />
-
-          <ThemedText
-            type="defaultMedium"
-            style={{
-              color: "#101010",
-              fontSize: 32,
-              textAlign: hasSubmittedShit ? "left" : "center",
-            }}
-          >
-            {hasSubmittedShit
-              ? "Your Croppy Summary"
-              : "Check your crops' health with AI"}
-          </ThemedText>
-
-          <Pressable style={styles.scanButton}>
-            <IconSymbol name="camera" size={20} color="#101010" />
-            <ThemedText style={styles.scanText} type="defaultMedium">
-              Scan Leaf
-            </ThemedText>
-          </Pressable>
-        </ThemedView>
+        <HomeDashboard />
       ) : (
         <ThemedView
           style={{
