@@ -51,7 +51,7 @@ function ResultHighlight({
             style={[
               styles.circleProgress,
               {
-                width: circleSize,
+                width: result.confidence,
                 height: circleSize,
                 borderRadius: circleSize / 2,
                 borderLeftColor:
