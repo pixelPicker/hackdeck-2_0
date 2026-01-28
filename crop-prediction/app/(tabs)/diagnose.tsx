@@ -33,20 +33,18 @@ export default function TabTwoScreen() {
     setScreenState("camera");
   };
 
-  const handleSubmit = (photoUri: string) => {
+  const handleSubmit = () => {
     setIsModelProcessing(true);
     setScreenState("processing");
-    // TODO: Call ML model API here instead of faking it and save data to local storage
+
+    // Mock demo response for testing chatbot (replace API call)
     setTimeout(() => {
+      const demoId = Math.random().toString(36).substring(7);
       setSelectedPhotoUri(null);
       setIsModelProcessing(false);
       setScreenState("empty");
-      router.push({ pathname: "/results/[id]", params: { id: "48395738" } });
+      router.push({ pathname: "/results/[id]", params: { id: demoId } });
     }, 2000);
-
-    // setSelectedPhotoUri(null);
-    // setIsModelProcessing(false);
-    // setScreenState("empty");
   };
 
   if (screenState === "camera") {

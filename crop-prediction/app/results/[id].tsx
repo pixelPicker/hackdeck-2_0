@@ -16,6 +16,8 @@ import { ThemedText } from "@/components/themed-text";
 import { DiagnosisResult } from "@/types/Result";
 import CircularProgress from "@/components/ui/CircularProgress";
 import { IconSymbol } from "@/components/ui/icon-symbol";
+import diseasesData from "@/data/diseases.json";
+import GeminiChatbotComponent from "@/components/GeminiChatbot";
 
 function ResultHighlight({
   result,
@@ -70,119 +72,374 @@ function ResultHighlight({
   );
 }
 
-function ChatbotContainer({ result }: { result: DiagnosisResult }) {
-  const [chatbotOpen, setChatbotOpen] = useState(false);
-  const [messages, setMessages] = useState<
-    { id: string; text: string; sender: "user" | "bot" }[]
-  >([
-    {
-      id: "1",
-      text: `Hello! I'm here to help you with your ${result.diagnosis} diagnosis. What would you like to know?`,
-      sender: "bot",
-    },
-  ]);
-  const [input, setInput] = useState("");
+// // Enhanced knowledge-based response generator with fuzzy matching for short queries
+// function getKnowledgeBasedResponse(
+//   userQuery: string,
+//   diseaseName: string,
+// ): string {
+//   const query = userQuery.toLowerCase().trim();
+//   const words = query.split(/\s+/);
 
-  const handleSendMessage = () => {
-    if (input.trim()) {
-      const userMsg = {
-        id: Date.now().toString(),
-        text: input,
-        sender: "user" as const,
-      };
-      setMessages((prev) => [...prev, userMsg]);
-      setInput("");
+//   const disease = (diseasesData as any).diseases.find(
+//     (d: any) =>
+//       d.name.toLowerCase() === diseaseName.toLowerCase() ||
+//       d.scientificName.toLowerCase().includes(diseaseName.toLowerCase()) ||
+//       d.commonNames?.some(
+//         (cn: string) => cn.toLowerCase() === diseaseName.toLowerCase(),
+//       ),
+//   );
 
-      // Simulate bot response
-      setTimeout(() => {
-        const botResponses = [
-          `That's a great question about the treatment. ${result.treatment} is recommended for this condition.`,
-          `For prevention, ${result.prevention} is very effective.`,
-          `The confidence level of this diagnosis is ${result.confidence}%, which indicates strong detection.`,
-          `This condition is classified as ${result.isSevere ? "severe" : "mild"}. Please monitor closely.`,
-        ];
-        const randomResponse =
-          botResponses[Math.floor(Math.random() * botResponses.length)];
-        setMessages((prev) => [
-          ...prev,
-          { id: Date.now().toString(), text: randomResponse, sender: "bot" },
-        ]);
-      }, 500);
-    }
-  };
+//   if (!disease) {
+//     return "I couldn't find information about this disease. Could you provide more details?";
+//   }
 
-  return (
-    <>
-      <TouchableOpacity
-        style={styles.chatbotButton}
-        onPress={() => setChatbotOpen(true)}
-      >
-        <IconSymbol size={24} name="chat" color={"#fff"} />
-      </TouchableOpacity>
+//   // Helper function to check for keyword matches (flexible for short queries)
+//   const hasKeyword = (keywords: string[], checkWords: string[] = words) => {
+//     return keywords.some((kw: string) =>
+//       checkWords.some(
+//         (w: string) => kw.includes(w) || w.includes(kw.substring(0, 3)),
+//       ),
+//     );
+//   };
 
-      <Modal
-        visible={chatbotOpen}
-        transparent
-        animationType="fade"
-        onRequestClose={() => setChatbotOpen(false)}
-      >
-        <View style={styles.chatbotOverlay}>
-          <View style={styles.chatbotPopup}>
-            <View style={styles.chatbotHeader}>
-              <ThemedText style={styles.chatbotTitle}>
-                Plant Assistant
-              </ThemedText>
-              <TouchableOpacity onPress={() => setChatbotOpen(false)}>
-                <ThemedText style={styles.chatbotClose}>✕</ThemedText>
-              </TouchableOpacity>
-            </View>
+//   // Check for symptom-related short queries
+//   if (
+//     hasKeyword([
+//       "symptom",
+//       "sign",
+//       "look",
+//       "appear",
+//       "see",
+//       "show",
+//       "mark",
+//       "spot",
+//       "lesion",
+//       "spot",
+//     ]) ||
+//     (query.match(/^(what|how|any|what's|what\s)/i) &&
+//       words.some((w) => ["symptom", "sign", "spot", "mark"].includes(w)))
+//   ) {
+//     const symptoms = disease.symptoms || [];
+//     const symptomsText = symptoms.slice(0, 4).join(", ");
+//     return `📍 Symptoms of ${disease.name}: ${symptomsText}. These typically develop on lower leaves or in humid conditions.`;
+//   }
 
-            <FlatList
-              data={messages}
-              keyExtractor={(item) => item.id}
-              renderItem={({ item }) => (
-                <View
-                  style={[
-                    styles.messageBubble,
-                    item.sender === "user"
-                      ? styles.userMessage
-                      : styles.botMessage,
-                  ]}
-                >
-                  <ThemedText style={styles.messageText}>
-                    {item.text}
-                  </ThemedText>
-                </View>
-              )}
-              style={styles.chatbotMessages}
-              contentContainerStyle={{
-                flexGrow: 1,
-                justifyContent: "flex-end",
-              }}
-            />
+//   // Cause/why queries (very short)
+//   if (
+//     hasKeyword([
+//       "cause",
+//       "why",
+//       "origin",
+//       "trigger",
+//       "source",
+//       "agent",
+//       "pathogen",
+//       "infect",
+//     ]) ||
+//     query === "why" ||
+//     query === "cause" ||
+//     query === "how"
+//   ) {
+//     return `🔬 ${disease.name} is caused by ${disease.causes[0]}. Spreads through ${disease.causes[1] || "water and spores"}. Conditions: ${disease.conditions.temperature}, ${disease.conditions.humidity} humidity.`;
+//   }
 
-            <View style={styles.chatbotInput}>
-              <TextInput
-                style={styles.textInput}
-                placeholder="Ask a question..."
-                placeholderTextColor="#999"
-                value={input}
-                onChangeText={setInput}
-                onSubmitEditing={handleSendMessage}
-              />
-              <TouchableOpacity
-                style={styles.sendButton}
-                onPress={handleSendMessage}
-              >
-                <ThemedText style={styles.sendButtonText}>Send</ThemedText>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </View>
-      </Modal>
-    </>
-  );
-}
+//   // Treatment/spray (very short)
+//   if (
+//     hasKeyword([
+//       "treat",
+//       "spray",
+//       "chemical",
+//       "fix",
+//       "cure",
+//       "solve",
+//       "remedy",
+//       "product",
+//       "drug",
+//     ]) ||
+//     (query.includes("what") && query.includes("use")) ||
+//     query === "treat" ||
+//     query === "spray" ||
+//     query === "fix"
+//   ) {
+//     const treatments = disease.treatment.chemical || [];
+//     const treatment =
+//       treatments.slice(0, 3).join(", ") || disease.treatment.immediate?.[0];
+//     return `💊 Treatment: ${treatment}. Apply every ${disease.treatment.frequency}. Actions: ${disease.treatment.immediate?.[0] || "Remove infected parts"}`;
+//   }
+
+//   // Prevention (very short)
+//   if (
+//     hasKeyword([
+//       "prevent",
+//       "avoid",
+//       "stop",
+//       "protect",
+//       "defense",
+//       "shield",
+//       "safe",
+//     ]) ||
+//     query === "prevent" ||
+//     query === "how prevent" ||
+//     query.includes("prevent")
+//   ) {
+//     const preventions = disease.prevention || [];
+//     return `🛡️ Prevention: ${preventions.slice(0, 2).join(" • ")}. Best during ${disease.conditions.seasonality}.`;
+//   }
+
+//   // Organic/biological (very short)
+//   if (
+//     hasKeyword(["organic", "bio", "natural", "green", "safe", "ecological"]) ||
+//     query === "organic" ||
+//     query === "bio" ||
+//     query === "natural"
+//   ) {
+//     const bioAgents = disease.treatment.biological || [];
+//     return `🌱 Organic options: ${bioAgents.join(", ")}. Natural but slower acting than chemicals.`;
+//   }
+
+//   // Risk/when/conditions (very short)
+//   if (
+//     hasKeyword([
+//       "risk",
+//       "when",
+//       "condition",
+//       "weather",
+//       "temperature",
+//       "humid",
+//       "wet",
+//       "spread",
+//     ]) ||
+//     query === "risk" ||
+//     query === "when" ||
+//     query === "weather"
+//   ) {
+//     const risks = disease.riskFactors || [];
+//     return `⚠️ Risk factors: ${risks.slice(0, 2).join(", ")}. Thrives in ${disease.conditions.temperature} temp, ${disease.conditions.humidity} humidity.`;
+//   }
+
+//   // Severity/danger/damage (very short)
+//   if (
+//     hasKeyword([
+//       "severe",
+//       "danger",
+//       "damage",
+//       "bad",
+//       "loss",
+//       "impact",
+//       "serious",
+//     ]) ||
+//     query === "severe" ||
+//     query === "bad" ||
+//     query === "danger"
+//   ) {
+//     return `🚨 Severity: ${disease.severity} | Impact: ${disease.economicImpact}. Early action is critical!`;
+//   }
+
+//   // How long/duration/cycle
+//   if (
+//     hasKeyword([
+//       "long",
+//       "duration",
+//       "cycle",
+//       "lifespan",
+//       "time",
+//       "generation",
+//       "stages",
+//     ]) ||
+//     query === "how long" ||
+//     query === "duration" ||
+//     query === "cycle"
+//   ) {
+//     return `⏱️ Disease cycle: ${disease.lifespan}. Repeat treatment every 7-10 days during infection.`;
+//   }
+
+//   // Where/zone/region (very short)
+//   if (
+//     hasKeyword([
+//       "where",
+//       "zone",
+//       "region",
+//       "area",
+//       "place",
+//       "found",
+//       "climate",
+//     ]) ||
+//     query === "where" ||
+//     query === "zone"
+//   ) {
+//     return `📍 Found in: ${disease.zoneAffected.join(", ")}. Common in areas with matching temperature/humidity.`;
+//   }
+
+//   // Cost/price/cheap
+//   if (
+//     hasKeyword(["cost", "price", "cheap", "expensive", "afford"]) ||
+//     query === "cost" ||
+//     query === "price"
+//   ) {
+//     return `💰 Fungicides: Low to Medium cost. Biological controls: Medium to High cost. Consider both effectiveness and budget.`;
+//   }
+
+//   // Crop/plant specific
+//   if (
+//     hasKeyword(["crop", "plant", "tomato", "potato", "pepper"]) ||
+//     query.includes("plant")
+//   ) {
+//     const crops = disease.affectedCrops || [];
+//     return `🌾 Affects: ${crops.join(", ")}. Each may show slightly different symptoms.`;
+//   }
+
+//   // Spread/transmission (very short)
+//   if (
+//     hasKeyword([
+//       "spread",
+//       "transmit",
+//       "move",
+//       "travel",
+//       "wind",
+//       "water",
+//       "touch",
+//     ]) ||
+//     query === "spread" ||
+//     query === "how spread"
+//   ) {
+//     return `🔄 Spreads via: ${disease.causes.slice(1, 3).join(", ")}. Avoid overhead watering and working in wet fields.`;
+//   }
+
+//   // Resistant varieties
+//   if (
+//     hasKeyword(["resist", "variety", "var", "breed", "type", "strong"]) ||
+//     query === "resistant"
+//   ) {
+//     return `🌟 Use resistant varieties labeled VF, FF, or N codes. Choose varieties suited to your region's disease pressure.`;
+//   }
+
+//   // Spray schedule
+//   if (
+//     hasKeyword(["schedule", "when", "frequency", "often", "timing"]) ||
+//     query === "when" ||
+//     query === "schedule"
+//   ) {
+//     return `📅 Apply every ${disease.treatment.frequency}. Start before conditions become favorable. Peak during ${disease.conditions.seasonality}.`;
+//   }
+
+//   // Quick yes/no style responses for very short queries
+//   if (words.length === 1 || query.length < 5) {
+//     const word = words[0];
+
+//     if (word === "yes" || word === "no" || word === "ok" || word === "what") {
+//       return `${disease.name} Details: Severity=${disease.severity}, Affects ${disease.affectedCrops.join("/")}. Optimal conditions: ${disease.conditions.temperature}°C, ${disease.conditions.humidity}. Ask about symptoms, treatment, prevention, or how to spread.`;
+//     }
+//   }
+
+//   // Fallback: provide comprehensive overview
+//   return `📋 ${disease.name} Overview: Severity ${disease.severity}, affects ${disease.affectedCrops.join(", ")}. Optimal: ${disease.conditions.temperature}, ${disease.conditions.humidity}. Key steps: ${disease.prevention[0]}. Ask about symptoms, treatment, causes, prevention, or any other aspect!`;
+// }
+
+// function ChatbotContainer({ result }: { result: DiagnosisResult }) {
+//   const [chatbotOpen, setChatbotOpen] = useState(false);
+//   const [messages, setMessages] = useState<
+//     { id: string; text: string; sender: "user" | "bot" }[]
+//   >([
+//     {
+//       id: "1",
+//       text: `Hello! I'm your Plant Health Assistant. I have comprehensive knowledge about ${result.diagnosis} and can answer questions about symptoms, treatment, prevention, and more. What would you like to know?`,
+//       sender: "bot",
+//     },
+//   ]);
+//   const [input, setInput] = useState("");
+
+//   const handleSendMessage = () => {
+//     if (input.trim()) {
+//       const userMsg = {
+//         id: Date.now().toString(),
+//         text: input,
+//         sender: "user" as const,
+//       };
+//       setMessages((prev) => [...prev, userMsg]);
+//       setInput("");
+
+//       setTimeout(() => {
+//         const botResponse = getKnowledgeBasedResponse(input, result.diagnosis);
+//         setMessages((prev) => [
+//           ...prev,
+//           { id: Date.now().toString(), text: botResponse, sender: "bot" },
+//         ]);
+//       }, 500);
+//     }
+//   };
+
+//   return (
+//     <>
+//       <TouchableOpacity
+//         style={styles.chatbotButton}
+//         onPress={() => setChatbotOpen(true)}
+//       >
+//         <IconSymbol size={24} name="chat" color={"#fff"} />
+//       </TouchableOpacity>
+
+//       <Modal
+//         visible={chatbotOpen}
+//         transparent
+//         animationType="fade"
+//         onRequestClose={() => setChatbotOpen(false)}
+//       >
+//         <View style={styles.chatbotOverlay}>
+//           <View style={styles.chatbotPopup}>
+//             <View style={styles.chatbotHeader}>
+//               <ThemedText style={styles.chatbotTitle}>
+//                 Plant Assistant
+//               </ThemedText>
+//               <TouchableOpacity onPress={() => setChatbotOpen(false)}>
+//                 <ThemedText style={styles.chatbotClose}>✕</ThemedText>
+//               </TouchableOpacity>
+//             </View>
+
+//             <FlatList
+//               data={messages}
+//               keyExtractor={(item) => item.id}
+//               renderItem={({ item }) => (
+//                 <View
+//                   style={[
+//                     styles.messageBubble,
+//                     item.sender === "user"
+//                       ? styles.userMessage
+//                       : styles.botMessage,
+//                   ]}
+//                 >
+//                   <ThemedText style={styles.messageText}>
+//                     {item.text}
+//                   </ThemedText>
+//                 </View>
+//               )}
+//               style={styles.chatbotMessages}
+//               contentContainerStyle={{
+//                 flexGrow: 1,
+//                 justifyContent: "flex-end",
+//               }}
+//             />
+
+//             <View style={styles.chatbotInput}>
+//               <TextInput
+//                 style={styles.textInput}
+//                 placeholder="Ask a question..."
+//                 placeholderTextColor="#999"
+//                 value={input}
+//                 onChangeText={setInput}
+//                 onSubmitEditing={handleSendMessage}
+//               />
+//               <TouchableOpacity
+//                 style={styles.sendButton}
+//                 onPress={handleSendMessage}
+//               >
+//                 <ThemedText style={styles.sendButtonText}>Send</ThemedText>
+//               </TouchableOpacity>
+//             </View>
+//           </View>
+//         </View>
+//       </Modal>
+//     </>
+//   );
+// }
 
 function ResultData({ result }: { result: DiagnosisResult }) {
   const openResearchLink = (query: string) => {
@@ -300,7 +557,7 @@ export default function ResultScreen() {
         <ResultHighlight result={result} id={id} />
         <ResultData result={result} />
       </ScrollView>
-      <ChatbotContainer result={result} />
+      <GeminiChatbotComponent />
     </View>
   );
 }

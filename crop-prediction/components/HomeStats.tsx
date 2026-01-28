@@ -1,4 +1,4 @@
-import { View } from "react-native";
+import { View, StyleSheet } from "react-native";
 import { ThemedText } from "./themed-text";
 import { IconSymbol } from "./ui/icon-symbol";
 
@@ -32,11 +32,10 @@ function HomeStats({ totalScans = 12, highRisk = 3 }: HomeStatsProps) {
 
 export default HomeStats;
 
-const styles = {
+const styles = StyleSheet.create({
   statsContainer: {
     width: "100%",
-    display: "flex",
-    flexDirection: "row" as const,
+    flexDirection: "row",
     gap: 12,
   },
   statCard: {
@@ -46,7 +45,7 @@ const styles = {
     paddingVertical: 16,
     alignItems: "center",
   },
-  statIcon: { marginRight: "auto" },
+  statIcon: { marginRight: 0 },
   statValue: {
     fontSize: 36,
     fontWeight: "700" as const,
@@ -57,4 +56,4 @@ const styles = {
     opacity: 0.7,
     marginTop: 2,
   },
-};
+});

@@ -1,0 +1,902 @@
+{
+  "diseases": [
+    {
+      "id": "late_blight",
+      "name": "Late Blight",
+      "commonNames": ["Potato blight", "Tomato blight", "Ireland famine disease"],
+      "scientificName": "Phytophthora infestans",
+      "affectedCrops": ["Tomato", "Potato", "Eggplant"],
+      "severity": "High",
+      "symptoms": [
+        "Water-soaked lesions on leaves and stems",
+        "White mold on the underside of leaves",
+        "Brown and necrotic areas on fruits",
+        "Soft rot of tubers",
+        "Dark lesions with concentric rings",
+        "Rapid wilting and plant collapse",
+        "Yellow margins around leaf spots",
+        "Mushy, rotting tubers in storage"
+      ],
+      "causes": [
+        "Fungal pathogen Phytophthora infestans",
+        "High humidity and moisture",
+        "Cool, wet weather conditions",
+        "Contaminated seeds or plant material",
+        "Poor air circulation in dense crop canopies",
+        "Rainfall and water splash",
+        "Infected potato seed pieces"
+      ],
+      "conditions": {
+        "temperature": "10-25°C (ideal 18-20°C)",
+        "humidity": "Above 90%",
+        "rainfall": "Requires wet conditions",
+        "seasonality": "Spring to early fall",
+        "leafWetnessHours": "12+ hours required for infection"
+      },
+      "treatment": {
+        "immediate": [
+          "Remove infected leaves and plant parts",
+          "Improve air circulation",
+          "Reduce overhead watering",
+          "Apply copper-based fungicides",
+          "Use mancozeb-based fungicides"
+        ],
+        "chemical": [
+          "Copper sulfate pentahydrate (0.5-1%)",
+          "Mancozeb (Dithane M-45) at 2g/L",
+          "Chlorothalonil",
+          "Metalaxyl + Mancozeb",
+          "Ridomil Gold",
+          "Dimethomorph",
+          "Flumorph"
+        ],
+        "biological": [
+          "Bacillus subtilis",
+          "Trichoderma harzianum",
+          "Pseudomonas fluorescens"
+        ],
+        "frequency": "Every 7-10 days during wet season",
+        "duration": "Until disease is controlled (usually 3-4 weeks)"
+      },
+      "prevention": [
+        "Use resistant varieties (R1-R11 resistance)",
+        "Avoid overhead irrigation",
+        "Ensure proper crop spacing (45-60cm)",
+        "Rotate crops with non-solanaceae",
+        "Remove crop debris after harvest",
+        "Apply preventive fungicides early",
+        "Monitor weather forecasts",
+        "Use disease-free seed potatoes"
+      ],
+      "riskFactors": [
+        "High humidity above 90%",
+        "Temperatures 15-20°C",
+        "Wet leaves 12+ hours",
+        "Dense canopy",
+        "Lack of crop rotation",
+        "Contaminated irrigation water"
+      ],
+      "lifespan": "5-10 days per generation in optimal conditions",
+      "economicImpact": "Can cause 50-90% crop loss if untreated",
+      "zoneAffected": ["Temperate regions", "Mountainous areas", "High rainfall zones"],
+      "keywords": ["blight", "water soaked", "white mold", "soft rot", "phytophthora"]
+    },
+    {
+      "id": "early_blight",
+      "name": "Early Blight",
+      "commonNames": ["Target spot", "Alternaria blight", "Leaf spot"],
+      "scientificName": "Alternaria solani",
+      "affectedCrops": ["Tomato", "Potato"],
+      "severity": "Medium",
+      "symptoms": [
+        "Circular brown spots with concentric rings",
+        "Spots resemble a 'target' pattern",
+        "Yellow halo around lesions",
+        "Spots start on lower leaves and move up",
+        "Brown lesions on stems",
+        "Fruit spots that may crack",
+        "Leaf yellowing and defoliation",
+        "Scabby lesions on tubers"
+      ],
+      "causes": [
+        "Fungal pathogen Alternaria solani",
+        "Spores spread by wind and water splash",
+        "Contaminated plant debris",
+        "Cool to moderate temps with humidity",
+        "Poor air circulation"
+      ],
+      "conditions": {
+        "temperature": "20-25°C (optimal growth)",
+        "humidity": "80-90%",
+        "rainfall": "Moderate moisture required",
+        "seasonality": "Throughout growing season",
+        "leafWetnessHours": "4-10 hours"
+      },
+      "treatment": {
+        "immediate": [
+          "Remove infected lower leaves",
+          "Improve air flow",
+          "Mulch soil to prevent splash",
+          "Apply mancozeb fungicide",
+          "Remove severely infected plants"
+        ],
+        "chemical": [
+          "Mancozeb (0.2%)",
+          "Chlorothalonil",
+          "Azoxystrobin",
+          "Pyraclostrobin",
+          "Copper-based fungicides"
+        ],
+        "biological": [
+          "Bacillus subtilis",
+          "Streptomyces species",
+          "Trichoderma spp."
+        ],
+        "frequency": "Every 7-10 days",
+        "duration": "Throughout growing season"
+      },
+      "prevention": [
+        "Remove lower leaves that touch soil",
+        "Use drip irrigation",
+        "Space plants properly (45cm+)",
+        "Mulch around base",
+        "Remove crop residue",
+        "Use resistant varieties",
+        "Rotate crops",
+        "Avoid working in wet fields"
+      ],
+      "riskFactors": [
+        "High humidity",
+        "Warm temperatures (20-25°C)",
+        "Overhead irrigation",
+        "Dense plant canopy",
+        "Poor sanitation",
+        "Continuous tomato cultivation"
+      ],
+      "lifespan": "7-14 days per cycle",
+      "economicImpact": "Can reduce yield by 20-50%",
+      "zoneAffected": ["Tropical", "Subtropical", "Temperate regions"],
+      "keywords": ["target", "concentric", "alternaria", "early", "spot"]
+    },
+    {
+      "id": "bacterial_spot",
+      "name": "Bacterial Spot",
+      "commonNames": ["Bacterial leaf spot", "Xanthomonas", "Black spot"],
+      "scientificName": "Xanthomonas campestris pv. vesicatoria",
+      "affectedCrops": ["Pepper", "Tomato", "Eggplant"],
+      "severity": "High",
+      "symptoms": [
+        "Small dark brown spots with yellow halo",
+        "Raised pustules on fruit surface",
+        "Watersoaked appearance",
+        "Spots on stems and petioles",
+        "Yellowing and leaf drop",
+        "Unmarketable fruits",
+        "Necrotic lesions on all parts"
+      ],
+      "causes": [
+        "Bacterial pathogen Xanthomonas campestris",
+        "Water splash and contaminated tools",
+        "Enters through wounds",
+        "Warm, wet weather",
+        "Infected seeds or transplants"
+      ],
+      "conditions": {
+        "temperature": "25-30°C (optimal)",
+        "humidity": "90-100%",
+        "rainfall": "High moisture required",
+        "seasonality": "Warm season",
+        "leafWetnessHours": "2+ hours"
+      },
+      "treatment": {
+        "immediate": [
+          "Prune infected branches",
+          "Apply copper fungicide-bactericide",
+          "Use streptomycin sulfate spray",
+          "Remove infected plants",
+          "Sanitize tools (1:10 bleach)"
+        ],
+        "chemical": [
+          "Copper sulfate pentahydrate",
+          "Copper oxychloride",
+          "Streptomycin sulfate (100-200 ppm)",
+          "Oxytetracycline",
+          "Triphenyltin hydroxide"
+        ],
+        "biological": [
+          "Bacillus subtilis",
+          "Bacillus megaterium"
+        ],
+        "frequency": "Every 5-7 days during wet season",
+        "duration": "Until symptoms subside (2-3 weeks)"
+      },
+      "prevention": [
+        "Use disease-free seeds",
+        "Grow resistant varieties",
+        "Avoid overhead irrigation",
+        "Do not work in wet fields",
+        "Sanitize tools",
+        "Remove crop residue",
+        "Crop rotation",
+        "Control insect vectors"
+      ],
+      "riskFactors": [
+        "High humidity above 90%",
+        "Temperatures above 25°C",
+        "Rain and water splash",
+        "Mechanical damage",
+        "Crowded plants",
+        "Overhead irrigation",
+        "Insect injury"
+      ],
+      "lifespan": "10-14 days per generation",
+      "economicImpact": "Can cause 80-100% fruit loss",
+      "zoneAffected": ["Tropical", "Subtropical", "Warm temperate zones"],
+      "keywords": ["bacterial", "xanthomonas", "yellow halo", "pustule", "watersoaked"]
+    },
+    {
+      "id": "powdery_mildew",
+      "name": "Powdery Mildew",
+      "commonNames": ["Mildew", "White powder", "Ash", "White coating"],
+      "scientificName": "Oidium species, Erysiphe species",
+      "affectedCrops": ["Cucumber", "Squash", "Melon", "Grape", "Bean", "Pea"],
+      "severity": "Medium",
+      "symptoms": [
+        "White powdery coating on leaves",
+        "Yellowing of affected leaves",
+        "Distorted leaf growth",
+        "Premature leaf drop",
+        "Reduced fruit size and quality",
+        "Affects flowers and stems",
+        "White coating on both sides",
+        "Stunted plant growth"
+      ],
+      "causes": [
+        "Fungal pathogen Oidium, Erysiphe, Podosphaera",
+        "Airborne spores spread",
+        "Warm, dry conditions favor",
+        "High humidity with warm days",
+        "Poor air circulation"
+      ],
+      "conditions": {
+        "temperature": "15-25°C (optimal)",
+        "humidity": "60-80%",
+        "rainfall": "Doesn't need wet conditions",
+        "seasonality": "Spring through fall",
+        "sunExposure": "Low light increases susceptibility"
+      },
+      "treatment": {
+        "immediate": [
+          "Remove infected leaves",
+          "Apply sulfur dust",
+          "Use potassium bicarbonate spray",
+          "Apply neem oil",
+          "Improve air circulation"
+        ],
+        "chemical": [
+          "Sulfur powder (dust or spray)",
+          "Potassium bicarbonate",
+          "Neem oil (2%)",
+          "Karathane (dinocap)",
+          "Triazole fungicides"
+        ],
+        "biological": [
+          "Bacillus subtilis",
+          "Ampelomyces quisqualis",
+          "Trichoderma spp."
+        ],
+        "frequency": "Every 7-14 days",
+        "duration": "Throughout growing season"
+      },
+      "prevention": [
+        "Choose resistant varieties",
+        "Ensure good air circulation",
+        "Avoid excessive nitrogen",
+        "Water at soil level",
+        "Remove infected leaves",
+        "Maintain optimal spacing",
+        "Clean greenhouse",
+        "Avoid overhead irrigation"
+      ],
+      "riskFactors": [
+        "Warm days (20-25°C)",
+        "Cool nights (15-18°C)",
+        "High humidity (60-80%)",
+        "Dense canopy",
+        "Overcrowding",
+        "Poor air movement",
+        "Shade"
+      ],
+      "lifespan": "5-7 days per generation",
+      "economicImpact": "Can reduce yield by 20-40%",
+      "zoneAffected": ["All zones", "Greenhouses", "Protected cultivation"],
+      "keywords": ["powder", "white coating", "mildew", "oidium", "dust"]
+    },
+    {
+      "id": "downy_mildew",
+      "name": "Downy Mildew",
+      "commonNames": ["Blue mold", "False mildew", "Downy mold"],
+      "scientificName": "Plasmopara viticola, Pseudoperonospora species",
+      "affectedCrops": ["Grape", "Cucumber", "Lettuce", "Spinach", "Melon"],
+      "severity": "High",
+      "symptoms": [
+        "Yellow patches on upper leaf surface",
+        "White cotton-like growth on underside",
+        "Leaves curl and drop",
+        "Brown lesions on flowers",
+        "Berry drop and fruit rot",
+        "Plant stunting",
+        "Chlorotic spots",
+        "Sporulation on leaf undersides"
+      ],
+      "causes": [
+        "Oomycete pathogen Plasmopara viticola",
+        "Spreads via zoospores in water",
+        "Requires moisture for infection",
+        "Cool, wet weather"
+      ],
+      "conditions": {
+        "temperature": "10-20°C (optimal)",
+        "humidity": "95-100% overnight",
+        "rainfall": "High moisture essential",
+        "seasonality": "Spring to early summer",
+        "leafWetnessHours": "12+ hours"
+      },
+      "treatment": {
+        "immediate": [
+          "Remove infected leaves and clusters",
+          "Improve drainage",
+          "Apply copper-based fungicide",
+          "Use metalaxyl + mancozeb",
+          "Increase plant spacing"
+        ],
+        "chemical": [
+          "Bordeaux mixture (1%)",
+          "Mancozeb (0.2%)",
+          "Metalaxyl-M",
+          "Fosetyl-aluminum",
+          "Ridomil Gold"
+        ],
+        "biological": [
+          "Bacillus subtilis",
+          "Trichoderma asperellum"
+        ],
+        "frequency": "Every 7-10 days during wet season",
+        "duration": "Throughout growing season"
+      },
+      "prevention": [
+        "Use resistant varieties",
+        "Prune for air circulation",
+        "Avoid overhead irrigation",
+        "Remove infected material",
+        "Apply preventive fungicides",
+        "Space plants adequately",
+        "Remove crop residue"
+      ],
+      "riskFactors": [
+        "Cool, wet weather (10-20°C)",
+        "High humidity above 90%",
+        "Wet leaves overnight",
+        "Poor air circulation",
+        "Dense canopy",
+        "Lack of sunlight"
+      ],
+      "lifespan": "7-14 days per cycle",
+      "economicImpact": "Can cause 100% crop loss in untreated vineyards",
+      "zoneAffected": ["Temperate regions", "Mountainous areas", "High rainfall zones"],
+      "keywords": ["downy", "white underside", "yellow spots", "plasmopara", "false"]
+    },
+    {
+      "id": "septoria_leaf_spot",
+      "name": "Septoria Leaf Spot",
+      "commonNames": ["Leaf spot", "Septoria", "Target spot"],
+      "scientificName": "Septoria lycopersici",
+      "affectedCrops": ["Tomato"],
+      "severity": "Medium",
+      "symptoms": [
+        "Small circular spots with dark border",
+        "Gray center with black dots (pycnidia)",
+        "Spots typically 2-3mm diameter",
+        "Yellow halo around lesions",
+        "Spots on older leaves first",
+        "Leaves eventually drop",
+        "Spots gradually enlarge"
+      ],
+      "causes": [
+        "Fungal pathogen Septoria lycopersici",
+        "Water splash and contact",
+        "Survives in crop residue",
+        "Warm, wet conditions",
+        "Contaminated seeds"
+      ],
+      "conditions": {
+        "temperature": "20-25°C",
+        "humidity": "85-95%",
+        "rainfall": "Regular moisture required",
+        "seasonality": "Throughout growing season",
+        "leafWetnessHours": "4-8 hours"
+      },
+      "treatment": {
+        "immediate": [
+          "Remove infected leaves",
+          "Apply mancozeb fungicide",
+          "Use chlorothalonil spray",
+          "Improve air circulation",
+          "Avoid working when wet"
+        ],
+        "chemical": [
+          "Mancozeb (0.2%)",
+          "Chlorothalonil",
+          "Copper-based products",
+          "Azoxystrobin"
+        ],
+        "biological": [
+          "Bacillus subtilis"
+        ],
+        "frequency": "Every 7-10 days",
+        "duration": "Throughout growing season"
+      },
+      "prevention": [
+        "Use disease-free seeds",
+        "Remove lower leaves",
+        "Use drip irrigation",
+        "Mulch soil surface",
+        "Space plants well",
+        "Remove crop residue",
+        "Rotate crops",
+        "Sanitize tools"
+      ],
+      "riskFactors": [
+        "Warm, humid weather",
+        "Overhead irrigation",
+        "Dense plant canopy",
+        "Poor air circulation",
+        "Continuous cultivation",
+        "Contaminated seeds"
+      ],
+      "lifespan": "10-14 days",
+      "economicImpact": "Reduces yield by 10-30%",
+      "zoneAffected": ["Tropical", "Subtropical", "Warm temperate"],
+      "keywords": ["septoria", "pycnidia", "black dots", "circular"]
+    },
+    {
+      "id": "fusarium_wilt",
+      "name": "Fusarium Wilt",
+      "commonNames": ["Wilt", "Vascular wilt", "Wilt disease"],
+      "scientificName": "Fusarium oxysporum",
+      "affectedCrops": ["Tomato", "Pepper", "Eggplant", "Watermelon", "Cucumber"],
+      "severity": "High",
+      "symptoms": [
+        "Wilting of leaves and stems",
+        "Yellowing starting from lower leaves",
+        "Browning of vascular tissue inside stem",
+        "One side of plant may wilt first",
+        "Plant death as disease progresses",
+        "Roots show brown discoloration",
+        "No recovery even with watering",
+        "Stem discoloration when split"
+      ],
+      "causes": [
+        "Soil-borne fungal pathogen Fusarium oxysporum",
+        "Enters through root wounds",
+        "Clogs water vessels",
+        "Survives in soil many years",
+        "Contaminated soil and equipment"
+      ],
+      "conditions": {
+        "temperature": "25-28°C (optimal)",
+        "humidity": "Soil moisture essential",
+        "pH": "Neutral to slightly alkaline",
+        "seasonality": "Mid to late season",
+        "soilType": "More severe in sandy soils"
+      },
+      "treatment": {
+        "immediate": [
+          "Remove infected plants entirely",
+          "Do not compost",
+          "Apply biocontrol to soil",
+          "No chemical cure",
+          "Sanitize tools"
+        ],
+        "chemical": [
+          "Benomyl (limited effectiveness)",
+          "Carbendazim (limited)"
+        ],
+        "biological": [
+          "Trichoderma harzianum",
+          "Bacillus subtilis",
+          "Pseudomonas fluorescens",
+          "Arbuscular mycorrhizal fungi"
+        ],
+        "frequency": "Preventive measures only",
+        "duration": "Long-term management"
+      },
+      "prevention": [
+        "Use resistant varieties (VF, VFN)",
+        "Use disease-free seedlings",
+        "Crop rotation (2-3 years minimum)",
+        "Avoid contaminated soil",
+        "Sterilize soil if needed",
+        "Sanitize equipment",
+        "Control moisture",
+        "Maintain soil health"
+      ],
+      "riskFactors": [
+        "Contaminated soil",
+        "Root injury",
+        "Warm soil (25-28°C)",
+        "Wet soil conditions",
+        "Acidic soil",
+        "Monoculture",
+        "Poor drainage"
+      ],
+      "lifespan": "Can persist 10+ years",
+      "economicImpact": "Can cause 100% plant death",
+      "zoneAffected": ["All zones", "Particularly warm areas"],
+      "keywords": ["fusarium", "wilt", "vascular", "browning", "stem"]
+    },
+    {
+      "id": "verticillium_wilt",
+      "name": "Verticillium Wilt",
+      "commonNames": ["Verticillium wilt", "Vascular collapse", "Wilt"],
+      "scientificName": "Verticillium dahliae",
+      "affectedCrops": ["Tomato", "Pepper", "Eggplant", "Potato", "Strawberry"],
+      "severity": "High",
+      "symptoms": [
+        "Wilting during day, recovery at night initially",
+        "Yellowing between leaf veins",
+        "Browning of vascular tissue",
+        "Unilateral wilting (one side)",
+        "Plant stunting",
+        "Brown streaks in stem cross-section",
+        "Leaf scorch",
+        "Gradual plant decline"
+      ],
+      "causes": [
+        "Soil-borne fungal pathogen Verticillium dahliae",
+        "Enters through roots",
+        "Produces toxins causing wilt",
+        "Survives in soil many years",
+        "Spread through soil and equipment"
+      ],
+      "conditions": {
+        "temperature": "20-25°C (optimal)",
+        "humidity": "High soil moisture",
+        "pH": "Any pH",
+        "seasonality": "Mid to late season",
+        "soilType": "Loam and clay more favorable"
+      },
+      "treatment": {
+        "immediate": [
+          "Remove infected plants",
+          "Do not compost",
+          "Increase drainage",
+          "Apply biocontrol",
+          "No chemical cure"
+        ],
+        "chemical": [
+          "Limited effectiveness"
+        ],
+        "biological": [
+          "Trichoderma harzianum",
+          "Bacillus subtilis",
+          "Pseudomonas spp."
+        ],
+        "frequency": "Preventive only",
+        "duration": "Ongoing management"
+      },
+      "prevention": [
+        "Use resistant varieties",
+        "Crop rotation (3+ years)",
+        "Use clean soil",
+        "Avoid equipment contamination",
+        "Maintain good drainage",
+        "Sanitize tools",
+        "Use disease-free transplants",
+        "Solarize soil if possible"
+      ],
+      "riskFactors": [
+        "Contaminated soil",
+        "Poor drainage",
+        "Moderate temps (20-25°C)",
+        "Root stress",
+        "Monoculture",
+        "Cool seasons",
+        "Susceptible hosts"
+      ],
+      "lifespan": "Can persist 14+ years",
+      "economicImpact": "Can cause significant yield loss",
+      "zoneAffected": ["All zones", "Particularly cool-season areas"],
+      "keywords": ["verticillium", "dahliae", "vascular", "unilateral", "streaking"]
+    },
+    {
+      "id": "leaf_curl",
+      "name": "Leaf Curl",
+      "commonNames": ["Yellow leaf curl", "Tomato yellow leaf curl virus", "TYLCV", "Leaf roll"],
+      "scientificName": "Begomovirus (Tomato Yellow Leaf Curl Virus)",
+      "affectedCrops": ["Tomato", "Pepper", "Eggplant"],
+      "severity": "High",
+      "symptoms": [
+        "Upward curling of leaves",
+        "Yellowing of leaves",
+        "Severe stunting of plant",
+        "Reduced fruit set",
+        "Tiny malformed fruits",
+        "Plant wilt with adequate water",
+        "Purple or bronze discoloration",
+        "Leaf thickening"
+      ],
+      "causes": [
+        "Viral infection via whitefly (Bemisia tabaci)",
+        "Whitefly-transmitted virus",
+        "Spread by insect vectors",
+        "Highly contagious",
+        "Persistent in infected plants"
+      ],
+      "conditions": {
+        "temperature": "20-30°C (optimal)",
+        "humidity": "Any humidity",
+        "vector": "Whitefly population",
+        "seasonality": "Warm season",
+        "vectorActivity": "High whitefly activity"
+      },
+      "treatment": {
+        "immediate": [
+          "Remove infected plants promptly",
+          "Control whitefly population",
+          "Apply insecticide",
+          "No cure - removal only",
+          "Sanitize tools"
+        ],
+        "chemical": [
+          "Insecticidal soap",
+          "Neem oil spray (2%)",
+          "Pyrethrin-based",
+          "Imidacloprid",
+          "Spinosad"
+        ],
+        "biological": [
+          "Encarsia formosa",
+          "Ladybug beetles",
+          "Lacewing larvae",
+          "Predatory mites"
+        ],
+        "frequency": "Regular monitoring",
+        "duration": "Season-long prevention"
+      },
+      "prevention": [
+        "Use resistant varieties",
+        "Control whitefly",
+        "Use yellow sticky traps",
+        "Avoid infected fields",
+        "Use reflective mulches",
+        "Remove weeds",
+        "Use virus-free transplants",
+        "Isolate crops"
+      ],
+      "riskFactors": [
+        "High whitefly population",
+        "Warm season temps",
+        "Proximity to infected",
+        "Susceptible varieties",
+        "Lack of whitefly control",
+        "Continuous cropping"
+      ],
+      "lifespan": "Permanent in infected plant",
+      "economicImpact": "Can render plant useless",
+      "zoneAffected": ["Tropical", "Subtropical", "Warm temperate"],
+      "keywords": ["virus", "yellow leaf", "curl", "whitefly", "tylcv"]
+    },
+    {
+      "id": "anthracnose",
+      "name": "Anthracnose",
+      "commonNames": ["Fruit rot", "Canker", "Black spot", "Ripe rot"],
+      "scientificName": "Colletotrichum species",
+      "affectedCrops": ["Pepper", "Chili", "Tomato", "Eggplant", "Mango", "Banana"],
+      "severity": "Medium to High",
+      "symptoms": [
+        "Circular brown spots on fruits",
+        "Depressed lesion centers",
+        "Concentric rings of spores",
+        "Soft rot of fruits",
+        "Spots on leaves and stems",
+        "Fruit drop",
+        "Pink spore mass in center",
+        "Complete fruit decay in wet"
+      ],
+      "causes": [
+        "Fungal pathogen Colletotrichum species",
+        "Spreads through water",
+        "High humidity favors",
+        "Enters through wounds",
+        "Contaminated seeds and debris"
+      ],
+      "conditions": {
+        "temperature": "20-28°C (optimal)",
+        "humidity": "90-100%",
+        "rainfall": "Wet conditions required",
+        "seasonality": "Wet season",
+        "woundingFrequency": "Favors disease via damage"
+      },
+      "treatment": {
+        "immediate": [
+          "Remove infected fruits and leaves",
+          "Improve air circulation",
+          "Apply fungicide spray",
+          "Reduce humidity",
+          "Remove affected plants"
+        ],
+        "chemical": [
+          "Mancozeb (0.2%)",
+          "Carbendazim",
+          "Benomyl",
+          "Thiram",
+          "Trifloxystrobin"
+        ],
+        "biological": [
+          "Bacillus subtilis",
+          "Trichoderma harzianum"
+        ],
+        "frequency": "Every 7-10 days",
+        "duration": "Throughout wet season"
+      },
+      "prevention": [
+        "Use resistant varieties",
+        "Avoid overhead irrigation",
+        "Space for air circulation",
+        "Remove infected material",
+        "Use clean seeds",
+        "Rotate crops",
+        "Apply preventive fungicides",
+        "Control humidity"
+      ],
+      "riskFactors": [
+        "High humidity above 90%",
+        "Warm temps (20-28°C)",
+        "Wet conditions",
+        "Poor air circulation",
+        "Wounded fruits",
+        "Overhead irrigation",
+        "Insect injury"
+      ],
+      "lifespan": "5-10 days per cycle",
+      "economicImpact": "Can make fruits unmarketable",
+      "zoneAffected": ["Tropical", "Subtropical", "Wet seasons"],
+      "keywords": ["anthracnose", "colletotrichum", "depressed", "spore", "rot"]
+    },
+    {
+      "id": "rust",
+      "name": "Rust",
+      "commonNames": ["Rust spots", "Orange rust", "Pustule", "Brown rust"],
+      "scientificName": "Puccinia species",
+      "affectedCrops": ["Bean", "Pea", "Wheat", "Barley"],
+      "severity": "Medium",
+      "symptoms": [
+        "Rust-colored or brown pustules on leaf underside",
+        "Yellow spots on upper leaf surface",
+        "Leaf yellowing and dropping",
+        "Orange reddish dust on touching",
+        "Plant weakening",
+        "Reduced photosynthesis",
+        "Stem lesions",
+        "Black pustules in advanced stages"
+      ],
+      "causes": [
+        "Fungal pathogen Puccinia species",
+        "Airborne spores",
+        "Requires alternate hosts (some species)",
+        "High humidity promotes",
+        "Moderate temperatures"
+      ],
+      "conditions": {
+        "temperature": "15-25°C",
+        "humidity": "80-95%",
+        "rainfall": "Regular moisture",
+        "seasonality": "Spring to fall",
+        "alternateHosts": "Some species need alternate hosts"
+      },
+      "treatment": {
+        "immediate": [
+          "Remove infected leaves",
+          "Apply sulfur dust",
+          "Use fungicide spray",
+          "Improve air circulation",
+          "Reduce overhead watering"
+        ],
+        "chemical": [
+          "Sulfur powder (dust/spray)",
+          "Triadimefon",
+          "Mycobutanil",
+          "Tebuconazole",
+          "Propiconazole"
+        ],
+        "biological": [
+          "Bacillus subtilis"
+        ],
+        "frequency": "Every 7-14 days",
+        "duration": "Throughout season"
+      },
+      "prevention": [
+        "Use resistant varieties",
+        "Adequate spacing",
+        "Avoid overhead irrigation",
+        "Remove alternate hosts",
+        "Clean debris",
+        "Apply preventive sprays",
+        "Maintain vigor",
+        "Monitor regularly"
+      ],
+      "riskFactors": [
+        "High humidity",
+        "Cool to moderate temps",
+        "Dense canopy",
+        "Poor air circulation",
+        "Susceptible varieties",
+        "Infected alternate hosts",
+        "Leaf wetness"
+      ],
+      "lifespan": "7-14 days per generation",
+      "economicImpact": "Can reduce yield by 20-50%",
+      "zoneAffected": ["Temperate", "Cool season areas"],
+      "keywords": ["rust", "pustule", "orange dust", "puccinia", "reddish"]
+    }
+  ],
+  "shortQueryKeywords": {
+    "symptom": ["symptom", "sign", "look", "appear", "mark", "spot", "lesion", "show"],
+    "treatment": ["treat", "spray", "chemical", "fix", "cure", "solve", "remedy", "use"],
+    "prevent": ["prevent", "avoid", "stop", "protect", "defense"],
+    "cause": ["cause", "why", "origin", "trigger", "source", "agent", "pathogen"],
+    "organic": ["organic", "bio", "natural", "green", "safe", "ecological"],
+    "when": ["when", "weather", "season", "condition", "temp", "humid"],
+    "where": ["where", "zone", "region", "area", "place", "found"],
+    "spread": ["spread", "transmit", "move", "travel", "wind", "water"],
+    "cost": ["cost", "price", "cheap", "expensive", "afford"],
+    "severe": ["severe", "danger", "damage", "bad", "loss", "impact"],
+    "cycle": ["cycle", "long", "duration", "how long", "generation"],
+    "crop": ["crop", "plant", "tomato", "potato", "pepper", "affect"],
+    "virus": ["virus", "cure", "resistant", "variety"],
+    "soil": ["soil", "root", "buried", "underground"]
+  },
+  "faq": [
+    {
+      "q": "symptom",
+      "a": "Symptoms vary by disease. Early blight: target spots. Late blight: water-soaked lesions. Powdery mildew: white powder. Rust: orange pustules."
+    },
+    {
+      "q": "treat",
+      "a": "Apply fungicides every 7-10 days. Remove infected parts. Improve air circulation. Use resistant varieties for prevention."
+    },
+    {
+      "q": "prevent",
+      "a": "Use resistant varieties, ensure good air flow, avoid overhead watering, rotate crops yearly, sanitize tools, remove crop residue."
+    },
+    {
+      "q": "organic",
+      "a": "Use sulfur, neem oil, Bacillus subtilis, Trichoderma species. Less effective than chemicals but safer and environmentally friendly."
+    },
+    {
+      "q": "spread",
+      "a": "Fungal/bacterial: water splash, spores, contaminated tools. Viruses: insect vectors like whiteflies."
+    },
+    {
+      "q": "cure",
+      "a": "Fungal/bacterial: treatable with fungicides. Viruses: cannot be cured - remove infected plants immediately."
+    },
+    {
+      "q": "virus",
+      "a": "TYLCV spreads by whiteflies, cannot be cured. Remove infected plants and control whitefly vectors immediately."
+    },
+    {
+      "q": "resistant",
+      "a": "Resistant varieties have genetic resistance. Look for VF, FF, N, or R codes indicating resistance to specific diseases."
+    },
+    {
+      "q": "soil",
+      "a": "Soil-borne diseases persist 10+ years. Use resistant varieties, rotate 3+ years, or sterilize soil."
+    },
+    {
+      "q": "water",
+      "a": "Overhead irrigation promotes fungal/bacterial diseases. Use drip irrigation at soil level. Don't work in wet fields."
+    }
+  ]
+}
