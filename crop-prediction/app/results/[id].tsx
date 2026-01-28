@@ -15,6 +15,7 @@ import { useState } from "react";
 import { ThemedText } from "@/components/themed-text";
 import { DiagnosisResult } from "@/types/Result";
 import CircularProgress from "@/components/ui/CircularProgress";
+import { IconSymbol } from "@/components/ui/icon-symbol";
 
 function ResultHighlight({
   result,
@@ -116,7 +117,7 @@ function ChatbotContainer({ result }: { result: DiagnosisResult }) {
         style={styles.chatbotButton}
         onPress={() => setChatbotOpen(true)}
       >
-        <ThemedText style={styles.chatbotButtonText}>💬</ThemedText>
+        <IconSymbol size={24} name="chat" color={"#fff"} />
       </TouchableOpacity>
 
       <Modal
@@ -288,8 +289,8 @@ export default function ResultScreen() {
   const result: DiagnosisResult = {
     diagnosis: "Late Blight",
     confidence: 91,
-    treatment: "Apply copper-based fungicide",
-    prevention: "Avoid overhead watering",
+    treatment: ["Apply copper-based fungicide"],
+    prevention: ["Avoid overhead watering"],
     isSevere: true,
   };
 
@@ -393,13 +394,13 @@ const styles = StyleSheet.create({
     marginTop: 4,
   },
   sectionContainer: {
-    marginBottom: 32,
+    marginBottom: 20,
   },
   sectionHeader: {
     fontSize: 20,
     fontWeight: "bold",
     color: "#101010",
-    marginBottom: 16,
+    marginBottom: 8,
   },
   chatbotContainer: {
     position: "absolute",
@@ -432,20 +433,21 @@ const styles = StyleSheet.create({
   },
   linkCard: {
     backgroundColor: "#fff",
-    borderRadius: 12,
-    padding: 16,
+    borderRadius: 999,
+    paddingVertical: 8,
+    paddingHorizontal: 16,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
   },
   linkTitle: {
-    fontSize: 16,
+    fontSize: 12,
     fontWeight: "600",
     color: "#101010",
     flex: 1,
   },
   linkButton: {
-    fontSize: 14,
+    fontSize: 10,
     color: "#feb03b",
     fontWeight: "600",
   },
@@ -459,11 +461,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#feb03b",
     justifyContent: "center",
     alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
   },
   chatbotButtonText: {
     fontSize: 28,
@@ -487,8 +484,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingHorizontal: 16,
     paddingVertical: 12,
-    borderBottomWidth: 1,
-    borderBottomColor: "#e0e0e0",
   },
   chatbotTitle: {
     fontSize: 18,
@@ -514,10 +509,15 @@ const styles = StyleSheet.create({
   userMessage: {
     alignSelf: "flex-end",
     backgroundColor: "#feb03b",
+    borderBottomRightRadius: 0,
+    marginBottom: 4,
+    minWidth: 80,
   },
   botMessage: {
     alignSelf: "flex-start",
     backgroundColor: "#f0f0f0",
+    borderBottomLeftRadius: 0,
+    marginBottom: 4,
   },
   messageText: {
     fontSize: 14,
