@@ -1,4 +1,6 @@
-import { StyleSheet, ScrollView, View } from "react-native";
+import { StyleSheet, ScrollView, View, TouchableOpacity } from "react-native";
+import React, { useState, useEffect } from "react";
+import { useRouter } from "expo-router";
 
 import { ThemedText } from "@/components/themed-text";
 import { ThemedView } from "@/components/themed-view";
@@ -6,112 +8,151 @@ import { IconSymbol } from "@/components/ui/icon-symbol";
 
 interface ScanHistoryItem {
   id: string;
-  date: string;
-  cropType: string;
-  healthStatus: "Healthy" | "Moderate Risk" | "High Risk";
-  disease?: string;
+  crop_name: string;
+  disease_name: string;
   confidence: number;
-  imageUrl?: string;
+  image_url: string;
+  created_at: string;
 }
 
 const dummyScanHistory: ScanHistoryItem[] = [
   {
     id: "1",
-    date: "Jan 28, 2026 - 2:30 PM",
-    cropType: "Tomato",
-    healthStatus: "Moderate Risk",
-    disease: "Early Blight",
+    crop_name: "Tomato",
+    disease_name: "Early Blight",
     confidence: 85,
+    image_url: "",
+    created_at: "2026-01-28T14:30:00.000Z",
   },
   {
     id: "2",
-    date: "Jan 27, 2026 - 10:15 AM",
-    cropType: "Potato",
-    healthStatus: "Healthy",
+    crop_name: "Potato",
+    disease_name: "Healthy",
     confidence: 92,
+    image_url: "",
+    created_at: "2026-01-27T10:15:00.000Z",
   },
   {
     id: "3",
-    date: "Jan 26, 2026 - 4:45 PM",
-    cropType: "Pepper",
-    healthStatus: "High Risk",
-    disease: "Bacterial Spot",
+    crop_name: "Pepper",
+    disease_name: "Bacterial Spot",
     confidence: 78,
+    image_url: "",
+    created_at: "2026-01-26T16:45:00.000Z",
   },
   {
     id: "4",
-    date: "Jan 25, 2026 - 9:30 AM",
-    cropType: "Cucumber",
-    healthStatus: "Moderate Risk",
-    disease: "Powdery Mildew",
+    crop_name: "Cucumber",
+    disease_name: "Powdery Mildew",
     confidence: 81,
+    image_url: "",
+    created_at: "2026-01-25T09:30:00.000Z",
   },
   {
     id: "5",
-    date: "Jan 24, 2026 - 3:20 PM",
-    cropType: "Tomato",
-    healthStatus: "Healthy",
+    crop_name: "Tomato",
+    disease_name: "Healthy",
     confidence: 95,
+    image_url: "",
+    created_at: "2026-01-24T15:20:00.000Z",
   },
 ];
 
 function HistoryCard({ item }: { item: ScanHistoryItem }) {
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case "Healthy":
-        return "#22c55e";
-      case "Moderate Risk":
-        return "#f59e0b";
-      case "High Risk":
-        return "#dc2626";
-      default:
-        return "#6b7280";
+  const router = useRouter();
+
+  const getStatusColor = (diseaseName: string) => {
+    if (
+      diseaseName.toLowerCase().includes("healthy") ||
+      diseaseName === "Healthy"
+    ) {
+      return "#22c55e";
     }
+    if (
+      diseaseName.toLowerCase().includes("severe") ||
+      diseaseName.toLowerCase().includes("blight")
+    ) {
+      return "#dc2626";
+    }
+    return "#f59e0b";
   };
 
-  const getStatusIcon = (status: string) => {
-    switch (status) {
-      case "Healthy":
-        return "check-circle";
-      case "Moderate Risk":
-        return "alert-triangle";
-      case "High Risk":
-        return "alert-circle";
-      default:
-        return "help-circle";
+  const getStatusIcon = (diseaseName: string) => {
+    if (
+      diseaseName.toLowerCase().includes("healthy") ||
+      diseaseName === "Healthy"
+    ) {
+      return "check-circle";
     }
+    if (
+      diseaseName.toLowerCase().includes("severe") ||
+      diseaseName.toLowerCase().includes("blight")
+    ) {
+      return "alert-circle";
+    }
+    return "alert-triangle";
+  };
+
+  const getHealthStatus = (diseaseName: string) => {
+    if (
+      diseaseName.toLowerCase().includes("healthy") ||
+      diseaseName === "Healthy"
+    ) {
+      return "Healthy";
+    }
+    return "Needs Attention";
+  };
+
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString("en-US", {
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+  };
+
+  const handlePress = () => {
+    router.push(`/results/${item.id}`);
   };
 
   return (
-    <View style={styles.card}>
+    <TouchableOpacity style={styles.card} onPress={handlePress}>
       <View style={styles.cardHeader}>
         <View style={styles.cardTitleRow}>
-          <ThemedText style={styles.cropType}>{item.cropType}</ThemedText>
+          <ThemedText style={styles.cropType}>{item.crop_name}</ThemedText>
           <View
             style={[
               styles.statusBadge,
-              { backgroundColor: getStatusColor(item.healthStatus) },
+              { backgroundColor: getStatusColor(item.disease_name) },
             ]}
           >
             <IconSymbol
-              name={getStatusIcon(item.healthStatus)}
+              name={getStatusIcon(item.disease_name)}
               size={14}
               color="#fff"
             />
             <ThemedText style={styles.statusText}>
-              {item.healthStatus}
+              {getHealthStatus(item.disease_name)}
             </ThemedText>
           </View>
         </View>
-        <ThemedText style={styles.date}>{item.date}</ThemedText>
+        <ThemedText style={styles.date}>
+          {formatDate(item.created_at)}
+        </ThemedText>
       </View>
 
-      {item.disease && (
-        <View style={styles.diseaseRow}>
-          <ThemedText style={styles.diseaseLabel}>Detected:</ThemedText>
-          <ThemedText style={styles.diseaseName}>{item.disease}</ThemedText>
-        </View>
-      )}
+      {item.disease_name &&
+        !item.disease_name.toLowerCase().includes("healthy") && (
+          <View style={styles.diseaseRow}>
+            <ThemedText style={styles.diseaseLabel}>Detected:</ThemedText>
+            <ThemedText style={styles.diseaseName}>
+              {item.disease_name}
+            </ThemedText>
+          </View>
+        )}
 
       <View style={styles.confidenceRow}>
         <ThemedText style={styles.confidenceLabel}>Confidence:</ThemedText>
@@ -121,10 +162,10 @@ function HistoryCard({ item }: { item: ScanHistoryItem }) {
           />
         </View>
         <ThemedText style={styles.confidenceValue}>
-          {item.confidence}%
+          {item.confidence.toFixed(0)}%
         </ThemedText>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 }
 

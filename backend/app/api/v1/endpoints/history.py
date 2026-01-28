@@ -54,6 +54,43 @@ async def get_user_history(
         raise HTTPException(500, str(e))
 
 
+@router.get("/")
+async def get_all_history(
+    limit: int = 50,
+    db: AsyncSession = Depends(get_db),
+):
+    """
+    Get all diagnosis history (for frontend display)
+    
+    - **limit**: Maximum number of results (default 50)
+    """
+    try:
+        result = await db.execute(
+            select(Diagnosis)
+            .order_by(desc(Diagnosis.created_at))
+            .limit(limit)
+        )
+        diagnoses = result.scalars().all()
+
+        history = [
+            HistoryItem(
+                id=str(d.id),
+                crop_name=d.crop_name,
+                disease_name=d.disease_name,
+                confidence=d.confidence_score,
+                image_url=d.image_url,
+                created_at=d.created_at,
+            )
+            for d in diagnoses
+        ]
+
+        return history
+
+    except Exception as e:
+        logger.error(f"Get all history error: {str(e)}")
+        raise HTTPException(500, str(e))
+
+
 @router.get("/recent")
 async def get_recent_diagnoses(
     limit: int = 10,
