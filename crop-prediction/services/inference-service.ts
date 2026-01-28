@@ -1,7 +1,7 @@
 // Note: For React Native TFLite inference, you'll need react-native-fast-tflite
 // Install: npx expo install react-native-fast-tflite
 
-import * as FileSystem from 'expo-file-system';
+import { Paths, File } from 'expo-file-system';
 
 export interface InferenceResult {
     cropName: string;
@@ -64,14 +64,13 @@ export class InferenceService {
 
     static async init() {
         // Model will be downloaded or bundled with the app
-        const modelUri = `${FileSystem.documentDirectory}plant_disease_model.tflite`;
+        const modelFile = new File(Paths.document, 'plant_disease_model.tflite');
 
         // Check if model exists
-        const fileInfo = await FileSystem.getInfoAsync(modelUri);
-        if (fileInfo.exists) {
-            this.modelPath = modelUri;
+        if (modelFile.exists) {
+            this.modelPath = modelFile.uri;
             this.isInitialized = true;
-            console.log('Model loaded from:', modelUri);
+            console.log('Model loaded from:', modelFile.uri);
         } else {
             console.warn('Model not found. Download it first.');
             this.isInitialized = false;
@@ -79,23 +78,18 @@ export class InferenceService {
     }
 
     static async downloadModel(downloadUrl: string): Promise<void> {
-        const modelUri = `${FileSystem.documentDirectory}plant_disease_model.tflite`;
-
         console.log('Downloading model from:', downloadUrl);
-        const downloadResumable = FileSystem.createDownloadResumable(
+
+        // Download to the file location using the static downloadFileAsync method
+        const modelFile = await File.downloadFileAsync(
             downloadUrl,
-            modelUri,
-            {},
-            (downloadProgress) => {
-                const progress = downloadProgress.totalBytesWritten / downloadProgress.totalBytesExpectedToWrite;
-                console.log(`Download progress: ${(progress * 100).toFixed(1)}%`);
-            }
+            Paths.document,
+            { idempotent: true }
         );
 
-        await downloadResumable.downloadAsync();
-        this.modelPath = modelUri;
+        this.modelPath = modelFile.uri;
         this.isInitialized = true;
-        console.log('Model downloaded successfully');
+        console.log('Model downloaded successfully to:', modelFile.uri);
     }
 
     static async predict(imageUri: string): Promise<InferenceResult> {
