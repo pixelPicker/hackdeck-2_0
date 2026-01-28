@@ -66,19 +66,19 @@ async def upload_and_diagnose(
         diagnosis = Diagnosis(
             id=uuid.uuid4(),
             user_id=uuid.UUID(user_id) if user_id else None,
-            crop_name=prediction_result["crop_name"],
-            disease_name=prediction_result["disease_name"],
+            crop_name=prediction_result["cropName"],
+            disease_name=prediction_result["diseaseName"],
             confidence_score=prediction_result["confidence"],
             image_url=image_url,
-            image_quality_score=prediction_result["quality_metrics"]["quality_score"],
-            model_version=prediction_result["model_version"],
+            image_quality_score=prediction_result.get("qualityScore", 85),
+            model_version=prediction_result.get("modelVersion", "1.0"),
             metadata={
                 "latitude": latitude,
                 "longitude": longitude,
                 "filename": image.filename,
             },
             grid_location=grid_location,
-            needs_retry=prediction_result["needs_retry"],
+            needs_retry=prediction_result.get("needsRetry"),
         )
 
         db.add(diagnosis)
@@ -86,28 +86,34 @@ async def upload_and_diagnose(
         await db.refresh(diagnosis)
 
         # Update disease alert if applicable
-        if grid_location and not prediction_result["is_healthy"]:
+        if grid_location and not prediction_result["isHealthy"]:
             await update_disease_alert(
                 db, 
-                prediction_result["disease_name"],
-                prediction_result["crop_name"],
+                prediction_result["diseaseName"],
+                prediction_result["cropName"],
                 grid_location
             )
 
-        # Build response
+        # Build response compatible with mobile app
         response = DiagnosisResponse(
             id=str(diagnosis.id),
             crop_name=diagnosis.crop_name,
             disease_name=diagnosis.disease_name,
             confidence=diagnosis.confidence_score,
-            is_healthy=prediction_result["is_healthy"],
+            is_healthy=prediction_result["isHealthy"],
             needs_retry=diagnosis.needs_retry,
             image_url=diagnosis.image_url,
-            quality_metrics=QualityMetrics(**prediction_result["quality_metrics"]),
+            quality_metrics=QualityMetrics(
+                quality_score=prediction_result.get("qualityScore", 85),
+                blur_score=0,
+                brightness=0,
+                is_acceptable=True,
+                issues=[]
+            ),
             top_3_predictions=[
-                PredictionItem(**pred) for pred in prediction_result["top_3_predictions"]
+                PredictionItem(**pred) for pred in prediction_result.get("top3Predictions", [])
             ],
-            suggestions=prediction_result["suggestions"],
+            suggestions=prediction_result.get("suggestions", []),
             model_version=diagnosis.model_version,
             heatmap_url=heatmap_url,
             created_at=diagnosis.created_at,

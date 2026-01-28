@@ -17,13 +17,36 @@ const api = axios.create({
     },
 });
 
+export interface DiagnosisResult {
+    cropName: string;
+    diseaseName: string;
+    confidence: number;
+    isHealthy: boolean;
+    qualityScore?: number;
+}
+
 export const diagnosisApi = {
-    uploadScan: async (formData: FormData) => {
-        return await api.post('/diagnosis/upload', formData, {
+    uploadScan: async (imageUri: string): Promise<DiagnosisResult> => {
+        // Create FormData from image URI
+        const formData = new FormData();
+
+        const filename = imageUri.split('/').pop() || 'image.jpg';
+        const match = /\.(\w+)$/.exec(filename);
+        const type = match ? `image/${match[1]}` : 'image/jpeg';
+
+        formData.append('file', {
+            uri: imageUri,
+            name: filename,
+            type,
+        } as any);
+
+        const response = await api.post<DiagnosisResult>('/diagnosis/upload', formData, {
             headers: {
                 'Content-Type': 'multipart/form-data',
             },
         });
+
+        return response.data;
     },
 
     getNearbyAlerts: async (lat: number, lon: number) => {

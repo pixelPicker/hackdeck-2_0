@@ -44,24 +44,12 @@ export class SyncService {
     }
 
     private static async syncOneScan(scan: ScanRecord) {
-        const formData = new FormData();
+        // The API now handles FormData creation internally
+        // We just need to pass the image URI
+        await diagnosisApi.uploadScan(scan.image_uri);
 
-        // Prepare image for upload
-        // Note: URI handling might need adjustment based on how Expo handles file uris
-        const filename = scan.image_uri.split('/').pop() || 'image.jpg';
-        const match = /\.(\w+)$/.exec(filename);
-        const type = match ? `image/${match[1]}` : `image/jpg`;
-
-        formData.append('image', {
-            uri: scan.image_uri,
-            name: filename,
-            type: type,
-        } as any);
-
-        formData.append('crop_name', scan.crop_name);
-        if (scan.latitude) formData.append('latitude', scan.latitude.toString());
-        if (scan.longitude) formData.append('longitude', scan.longitude.toString());
-
-        await diagnosisApi.uploadScan(formData);
+        // Note: The backend will generate its own diagnosis
+        // The local scan data is kept for offline viewing
+        // but the canonical data comes from the backend
     }
 }

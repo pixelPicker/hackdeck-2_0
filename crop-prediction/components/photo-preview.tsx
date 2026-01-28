@@ -9,6 +9,8 @@ import {
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { ThemedText } from "./themed-text";
+import { LocalDatabase } from "@/services/local-db";
+import { diagnosisApi } from "@/services/api";
 
 interface PhotoPreviewProps {
   photoUri: string;
@@ -26,10 +28,42 @@ export function PhotoPreview({
   const handleSubmit = async () => {
     try {
       setIsSubmitting(true);
-      onSubmit(photoUri);
+
+      // Upload to backend for inference
+      console.log("Uploading image for backend inference...");
+      const result = await diagnosisApi.uploadScan(photoUri);
+
+      // Save to local database
+      await LocalDatabase.saveScan({
+        crop_name: result.cropName,
+        disease_name: result.diseaseName,
+        confidence: result.confidence,
+        image_uri: photoUri,
+        quality_score: result.qualityScore || 85,
+        timestamp: new Date().toISOString(),
+        is_synced: 1, // Already synced since we got response
+      });
+
+      Alert.alert(
+        "✅ Diagnosis Complete",
+        `Crop: ${result.cropName}\n` +
+          `Disease: ${result.diseaseName}\n` +
+          `Confidence: ${(result.confidence * 100).toFixed(1)}%\n\n` +
+          `${result.isHealthy ? "🌱 Plant is healthy!" : "⚠️ Treatment required"}`,
+        [
+          {
+            text: "View Details",
+            onPress: () => onSubmit(photoUri),
+          },
+        ],
+      );
     } catch (error) {
-      Alert.alert("Error", "Failed to submit photo");
-      console.error(error);
+      console.error("Diagnosis error:", error);
+      Alert.alert(
+        "❌ Error",
+        "Failed to analyze the image. Make sure you're connected to the internet.",
+      );
+    } finally {
       setIsSubmitting(false);
     }
   };
