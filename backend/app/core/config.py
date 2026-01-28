@@ -40,11 +40,18 @@ class Settings(BaseSettings):
 
     # File Upload
     MAX_FILE_SIZE_MB: int = 10
-    ALLOWED_EXTENSIONS: list = ["jpg", "jpeg", "png"]
+    ALLOWED_EXTENSIONS: Optional[list] = None
 
     class Config:
         env_file = ".env"
         case_sensitive = True
+        extra = "ignore"  # Ignore extra env vars like TF_ENABLE_ONEDNN_OPTS
+    
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        # Set default allowed extensions if not provided
+        if self.ALLOWED_EXTENSIONS is None:
+            self.ALLOWED_EXTENSIONS = ["jpg", "jpeg", "png"]
 
 
 settings = Settings()

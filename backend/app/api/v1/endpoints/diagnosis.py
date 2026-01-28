@@ -72,7 +72,7 @@ async def upload_and_diagnose(
             image_url=image_url,
             image_quality_score=prediction_result.get("qualityScore", 85),
             model_version=prediction_result.get("modelVersion", "1.0"),
-            metadata={
+            extra_metadata={
                 "latitude": latitude,
                 "longitude": longitude,
                 "filename": image.filename,

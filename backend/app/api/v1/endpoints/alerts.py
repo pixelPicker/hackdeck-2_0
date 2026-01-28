@@ -13,7 +13,7 @@ logger = logging.getLogger(__name__)
 router = APIRouter(prefix="/alerts", tags=["alerts"])
 
 
-@router.get("/nearby", response_list=True)
+@router.get("/nearby")
 async def get_nearby_alerts(
     latitude: float,
     longitude: float,

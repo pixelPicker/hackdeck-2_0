@@ -25,8 +25,8 @@ class Diagnosis(Base):
     image_quality_score = Column(Float, nullable=True)  # 0.0 - 100.0
     model_version = Column(String, nullable=False)
     
-    # Metadata
-    metadata = Column(JSON, nullable=True)  # GPS, timestamp, device info
+    # Additional Information
+    extra_metadata = Column(JSON, nullable=True)  # GPS, timestamp, device info
     grid_location = Column(String, nullable=True)  # Anonymized grid cell
     
     status = Column(Enum(DiagnosisStatus), default=DiagnosisStatus.PENDING)
