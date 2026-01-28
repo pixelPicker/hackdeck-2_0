@@ -34,15 +34,15 @@ export function PhotoPreview({
   //     const result = await diagnosisApi.uploadScan(photoUri);
 
   //     // Save to local database
-  //     await LocalDatabase.saveScan({
-  //       crop_name: result.cropName,
-  //       disease_name: result.diseaseName,
-  //       confidence: result.confidence,
-  //       image_uri: photoUri,
-  //       quality_score: result.qualityScore || 85,
-  //       timestamp: new Date().toISOString(),
-  //       is_synced: 1, // Already synced since we got response
-  //     });
+  //     // await LocalDatabase.saveScan({
+  //     //   crop_name: result.cropName,
+  //     //   disease_name: result.diseaseName,
+  //     //   confidence: result.confidence,
+  //     //   image_uri: photoUri,
+  //     //   quality_score: result.qualityScore || 85,
+  //     //   timestamp: new Date().toISOString(),
+  //     //   is_synced: 1, // Already synced since we got response
+  //     // });
 
   //     Alert.alert(
   //       "✅ Diagnosis Complete",
@@ -67,11 +67,6 @@ export function PhotoPreview({
   //     setIsSubmitting(false);
   //   }
   // };
-
-  const handleSubmit = () => {
-    setIsSubmitting(true);
-    setIsSubmitting(false);
-  };
 
   return (
     <View style={styles.container}>
@@ -108,7 +103,7 @@ export function PhotoPreview({
 
           <TouchableOpacity
             style={[styles.button, styles.submitButton]}
-            onPress={onSubmit}
+            onPress={() => onSubmit(photoUri)}
             disabled={isSubmitting}
           >
             {isSubmitting ? (

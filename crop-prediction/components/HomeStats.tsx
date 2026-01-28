@@ -35,7 +35,7 @@ export default HomeStats;
 const styles = StyleSheet.create({
   statsContainer: {
     width: "100%",
-    flexDirection: "row",
+    flexDirection: "row" as const,
     gap: 12,
   },
   statCard: {
@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fafafa",
     borderRadius: 16,
     paddingVertical: 16,
-    alignItems: "center",
+    alignItems: "center" as const,
   },
   statIcon: { marginRight: 0 },
   statValue: {

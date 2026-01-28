@@ -1,7 +1,7 @@
 import uuid
-from sqlalchemy import Column, String, Float, DateTime, Enum, ForeignKey, JSON
+from sqlalchemy import Column, String, Float, DateTime, Enum, JSON
 from sqlalchemy.dialects.postgresql import UUID
-from datetime import datetime
+from datetime import datetime, timezone
 import enum
 from app.db.base import Base
 
@@ -17,7 +17,7 @@ class Diagnosis(Base):
     __tablename__ = "diagnoses"
 
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    user_id = Column(UUID(as_uuid=True), ForeignKey("users.id"), nullable=True)
+    user_id = Column(UUID(as_uuid=True), nullable=True)  # TODO: Add foreign key when users table exists
     crop_name = Column(String, nullable=False)  # e.g., "Tomato", "Potato"
     disease_name = Column(String, nullable=True)  # e.g., "Early Blight"
     confidence_score = Column(Float, nullable=False)  # 0.0 - 1.0

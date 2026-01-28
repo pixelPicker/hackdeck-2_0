@@ -1,4 +1,4 @@
-import { View } from "react-native";
+import { View, StyleSheet } from "react-native";
 import { ThemedText } from "./themed-text";
 import { IconSymbol } from "./ui/icon-symbol";
 
@@ -32,7 +32,7 @@ function Stats({ scans = 12, highRisk = 3 }: StatsProps) {
 
 export default Stats;
 
-const styles = {
+const styles = StyleSheet.create({
   statGrid: {
     width: "100%",
     display: "flex",
@@ -57,4 +57,4 @@ const styles = {
     opacity: 0.7,
     marginTop: 2,
   },
-};
+});

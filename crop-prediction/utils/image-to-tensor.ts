@@ -5,7 +5,7 @@
 // - Native module for optimal performance
 
 import { manipulateAsync, SaveFormat } from 'expo-image-manipulator';
-import * as FileSystem from 'expo-file-system/legacy';
+import * as FileSystem from 'expo-file-system';
 
 /**
  * Convert image to normalized Float32Array for model input
@@ -27,7 +27,7 @@ export async function imageToTensor(
 
         // Step 2: Read image data as base64
         const base64 = await FileSystem.readAsStringAsync(resized.uri, {
-            encoding: FileSystem.EncodingType.Base64,
+            encoding: 'base64',
         });
 
         // Step 3: Decode base64 to raw pixel data
@@ -70,26 +70,3 @@ export async function imageToTensor(
         throw new Error('Failed to preprocess image');
     }
 }
-
-/**
- * Alternative: Use expo-gl for proper pixel extraction
- * Uncomment if expo-gl is available
- */
-/*
-import { GLView } from 'expo-gl';
-import { Asset } from 'expo-asset';
-
-export async function imageToTensorGL(
-  imageUri: string,
-  targetSize: number = 256
-): Promise<Float32Array> {
-  // Load image as texture
-  const asset = Asset.fromURI(imageUri);
-  await asset.downloadAsync();
-  
-  // Create GL context and extract pixels
-  // Implementation details depend on expo-gl setup
-  
-  return new Float32Array(3 * targetSize * targetSize);
-}
-*/

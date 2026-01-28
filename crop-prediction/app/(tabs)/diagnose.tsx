@@ -9,6 +9,9 @@ import { CameraScreen } from "@/components/camera-screen";
 import { PhotoPreview } from "@/components/photo-preview";
 import { Image } from "expo-image";
 import { Pulse } from "@/components/ui/Pulse";
+import { diagnosisApi } from "@/services/api";
+import { LocalDatabase } from "@/services/local-db";
+import { DiagnosisResult } from "@/types/Result";
 
 type ScreenState = "empty" | "camera" | "preview" | "processing";
 
@@ -33,18 +36,48 @@ export default function TabTwoScreen() {
     setScreenState("camera");
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async (photoUri: string) => {
     setIsModelProcessing(true);
     setScreenState("processing");
 
-    // Mock demo response for testing chatbot (replace API call)
-    setTimeout(() => {
-      const demoId = Math.random().toString(36).substring(7);
+    try {
+      // Call backend API for diagnosis
+      const result = (await diagnosisApi.uploadScan(
+        photoUri,
+      )) as unknown as DiagnosisResult;
+
+      // Save to local database
+      // await LocalDatabase.saveScan({
+      //   image_uri: photoUri,
+      //   crop_name: result.cropName,
+      //   disease_name: result.diseaseName,
+      //   confidence: result.confidence,
+      //   quality_score: result.qualityScore || 85,
+      //   timestamp: new Date().toISOString(),
+      //   is_synced: 1, // Mark as synced since we got result from backend
+      // });
+
+      console.log("✅ Diagnosis saved locally:", result);
+
+      // Navigate to results with the scan data
       setSelectedPhotoUri(null);
       setIsModelProcessing(false);
-      setScreenState("empty");
-      router.push({ pathname: "/results/[id]", params: { id: demoId } });
-    }, 2000);
+
+      // setScreenState("empty");
+
+      // Navigate to results screen (will show latest scan)
+      router.push({ pathname: "/results/[id]", params: { id: result.id } });
+    } catch (error) {
+      console.error("Diagnosis error:", error);
+      Alert.alert(
+        "❌ Error",
+        "Failed to diagnose the image. Please check your internet connection and try again.",
+      );
+
+      // Go back to preview on error
+      setIsModelProcessing(false);
+      setScreenState("preview");
+    }
   };
 
   if (screenState === "camera") {

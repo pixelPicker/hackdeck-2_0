@@ -23,7 +23,7 @@ class Settings(BaseSettings):
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 30
 
     # ML Configuration
-    MODEL_PATH: str = "./models/plant_disease_model.tflite"
+    MODEL_PATH: str = "./models/plant_disease_model.onnx"  # Changed from .tflite to .onnx
     MODEL_VERSION: str = "v1.0"
     CONFIDENCE_THRESHOLD: float = 0.70
     IMAGE_SIZE: int = 224
