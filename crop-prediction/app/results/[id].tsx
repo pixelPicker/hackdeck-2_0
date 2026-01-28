@@ -112,7 +112,6 @@ function ChatbotContainer({ result }: { result: DiagnosisResult }) {
 
   return (
     <>
-      {/* Chatbot Button - Fixed to bottom right */}
       <TouchableOpacity
         style={styles.chatbotButton}
         onPress={() => setChatbotOpen(true)}
@@ -120,7 +119,6 @@ function ChatbotContainer({ result }: { result: DiagnosisResult }) {
         <ThemedText style={styles.chatbotButtonText}>💬</ThemedText>
       </TouchableOpacity>
 
-      {/* Chatbot Modal */}
       <Modal
         visible={chatbotOpen}
         transparent
