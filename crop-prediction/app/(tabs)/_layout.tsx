@@ -95,6 +95,8 @@ export default function TabLayout() {
           tabBarIcon: ({ color }) => (
             <IconSymbol size={24} name="clock" color={color} />
           ),
+          headerLeft: undefined,
+          headerRight: undefined,
         }}
       />
     </Tabs>

@@ -33,9 +33,9 @@ export default function RootLayout() {
   useEffect(() => {
     if (loaded) {
       // Initialize local database and start auto-sync
-      LocalDatabase.init().then(() => {
-        SyncService.startAutoSync();
-      });
+      // LocalDatabase.init().then(() => {
+      //   SyncService.startAutoSync();
+      // });
       SplashScreen.hideAsync();
     }
   }, [loaded]);

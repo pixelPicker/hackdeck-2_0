@@ -1,7 +1,7 @@
 export type DiagnosisResult = {
   diagnosis: string;
   confidence: number;
-  treatment: string;
-  prevention: string;
+  treatment: string[];
+  prevention: string[];
   isSevere: boolean;
 };
