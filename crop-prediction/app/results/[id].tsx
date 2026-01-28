@@ -51,7 +51,7 @@ function ResultHighlight({
             style={[
               styles.circleProgress,
               {
-                width: circleSize,
+                width: result.confidence,
                 height: circleSize,
                 borderRadius: circleSize / 2,
                 borderLeftColor:
@@ -200,12 +200,9 @@ const styles = StyleSheet.create({
     backgroundColor: "#faf6f1",
   },
   highlightContainer: {
-    borderBottomLeftRadius: 30,
-    borderBottomRightRadius: 30,
     backgroundColor: "#fff",
     paddingHorizontal: 24,
-    paddingBottom: 32,
-    paddingTop: 48,
+    paddingVertical: 32,
   },
   dataContainer: {
     padding: 24,
@@ -284,13 +281,13 @@ const styles = StyleSheet.create({
     marginTop: 4,
   },
   sectionContainer: {
-    marginBottom: 24,
+    marginBottom: 32,
   },
   sectionHeader: {
     fontSize: 20,
     fontWeight: "bold",
     color: "#101010",
-    marginBottom: 12,
+    marginBottom: 16,
   },
   cardScroll: {
     marginHorizontal: -8,
@@ -318,21 +315,20 @@ const styles = StyleSheet.create({
   },
   linkCard: {
     backgroundColor: "#fff",
-    borderRadius: 999,
-    paddingVertical: 8,
-    paddingHorizontal: 16,
+    borderRadius: 12,
+    padding: 16,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
   },
   linkTitle: {
-    fontSize: 12,
+    fontSize: 16,
     fontWeight: "600",
     color: "#101010",
     flex: 1,
   },
   linkButton: {
-    fontSize: 12,
+    fontSize: 14,
     color: "#feb03b",
     fontWeight: "600",
   },
