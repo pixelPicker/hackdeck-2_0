@@ -95,8 +95,14 @@ export default function TabLayout() {
           tabBarIcon: ({ color }) => (
             <IconSymbol size={24} name="clock" color={color} />
           ),
-          headerLeft: undefined,
-          headerRight: undefined,
+          headerLeft: () => (
+            <ThemedText
+              style={{ paddingLeft: 16, fontSize: 20 }}
+              type="defaultMedium"
+            >
+              Scan History
+            </ThemedText>
+          ),
         }}
       />
     </Tabs>

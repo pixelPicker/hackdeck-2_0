@@ -18,7 +18,7 @@ const getGreeting = () => {
 };
 
 export default function HomeScreen() {
-  const [hasSubmittedShit, setHasSubmittedShit] = useState(true);
+  const [hasSubmittedShit, setHasSubmittedShit] = useState(false);
 
   return (
     <View

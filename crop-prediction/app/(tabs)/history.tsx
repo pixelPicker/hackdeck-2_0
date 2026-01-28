@@ -131,13 +131,6 @@ function HistoryCard({ item }: { item: ScanHistoryItem }) {
 export default function TabThreeScreen() {
   return (
     <ThemedView style={styles.container}>
-      <View style={styles.header}>
-        <IconSymbol name="leaf" size={32} color="#22c55e" />
-        <ThemedText type="title" style={styles.title}>
-          Scan History
-        </ThemedText>
-      </View>
-
       <ScrollView
         style={styles.scrollView}
         contentContainerStyle={styles.scrollContent}
@@ -155,6 +148,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#f8fafc",
+    paddingTop: 60,
   },
   header: {
     flexDirection: "row",
@@ -163,8 +157,6 @@ const styles = StyleSheet.create({
     padding: 24,
     paddingBottom: 16,
     backgroundColor: "#fff",
-    borderBottomWidth: 1,
-    borderBottomColor: "#e5e7eb",
   },
   title: {
     marginLeft: 12,

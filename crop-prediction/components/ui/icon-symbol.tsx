@@ -17,6 +17,7 @@ const ICON_MAP: Record<string, IconConfig> = {
   camera: { lib: "Feather", name: "camera" },
   clock: { lib: "Feather", name: "clock" },
   user: { lib: "Feather", name: "user" },
+  chat: { lib: "Feather", name: "message-square" },
 
   settings: { lib: "Feather", name: "settings" },
   bell: { lib: "Feather", name: "bell" },
