@@ -22,9 +22,7 @@ ENV/
 *.swo
 
 # Models
-models/*.h5
-models/*.pb
-!models/*.tflite
+models/
 
 # Logs
 *.log
@@ -38,3 +36,6 @@ Thumbs.db
 tmp/
 temp/
 uploads/
+
+# Script files
+scripts/
