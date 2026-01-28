@@ -1,23 +1,19 @@
 import axios from 'axios';
 import { Platform } from 'react-native';
 
-// ⚠️ IMPORTANT: Update this URL after starting ngrok!
-// Run: ngrok http 8000
-// Then copy the HTTPS URL here (e.g., https://abc123.ngrok.io)
 const NGROK_URL = 'https://3dc9bca73771.ngrok-free.app/api/v1';
 
-// Fallback URLs for different platforms
 const BASE_URL = Platform.select({
-    android: NGROK_URL,              // Use ngrok for Android emulator
-    ios: NGROK_URL,                  // Use ngrok for iOS simulator
-    default: NGROK_URL,              // Use ngrok for physical device
+    android: NGROK_URL,
+    ios: NGROK_URL,
+    default: NGROK_URL,
 });
 
 console.log('📡 API Base URL:', BASE_URL);
 
 const api = axios.create({
     baseURL: BASE_URL,
-    timeout: 30000,  // Increased timeout for file uploads
+    timeout: 30000,
     headers: {
         'Content-Type': 'application/json',
     },
