@@ -5,7 +5,12 @@ import {
   ScrollView,
   Dimensions,
   Linking,
+  TouchableOpacity,
+  Modal,
+  TextInput,
+  FlatList,
 } from "react-native";
+import { useState } from "react";
 
 import { ThemedText } from "@/components/themed-text";
 import { DiagnosisResult } from "@/types/Result";
@@ -18,8 +23,6 @@ function ResultHighlight({
   result: DiagnosisResult;
   id: string;
 }) {
-  // `result.confidence` will be passed to the CircularProgress component
-
   return (
     <View style={styles.highlightContainer}>
       <View style={styles.header}>
@@ -63,6 +66,122 @@ function ResultHighlight({
         </CircularProgress>
       </View>
     </View>
+  );
+}
+
+function ChatbotContainer({ result }: { result: DiagnosisResult }) {
+  const [chatbotOpen, setChatbotOpen] = useState(false);
+  const [messages, setMessages] = useState<
+    { id: string; text: string; sender: "user" | "bot" }[]
+  >([
+    {
+      id: "1",
+      text: `Hello! I'm here to help you with your ${result.diagnosis} diagnosis. What would you like to know?`,
+      sender: "bot",
+    },
+  ]);
+  const [input, setInput] = useState("");
+
+  const handleSendMessage = () => {
+    if (input.trim()) {
+      const userMsg = {
+        id: Date.now().toString(),
+        text: input,
+        sender: "user" as const,
+      };
+      setMessages((prev) => [...prev, userMsg]);
+      setInput("");
+
+      // Simulate bot response
+      setTimeout(() => {
+        const botResponses = [
+          `That's a great question about the treatment. ${result.treatment} is recommended for this condition.`,
+          `For prevention, ${result.prevention} is very effective.`,
+          `The confidence level of this diagnosis is ${result.confidence}%, which indicates strong detection.`,
+          `This condition is classified as ${result.isSevere ? "severe" : "mild"}. Please monitor closely.`,
+        ];
+        const randomResponse =
+          botResponses[Math.floor(Math.random() * botResponses.length)];
+        setMessages((prev) => [
+          ...prev,
+          { id: Date.now().toString(), text: randomResponse, sender: "bot" },
+        ]);
+      }, 500);
+    }
+  };
+
+  return (
+    <>
+      {/* Chatbot Button - Fixed to bottom right */}
+      <TouchableOpacity
+        style={styles.chatbotButton}
+        onPress={() => setChatbotOpen(true)}
+      >
+        <ThemedText style={styles.chatbotButtonText}>💬</ThemedText>
+      </TouchableOpacity>
+
+      {/* Chatbot Modal */}
+      <Modal
+        visible={chatbotOpen}
+        transparent
+        animationType="fade"
+        onRequestClose={() => setChatbotOpen(false)}
+      >
+        <View style={styles.chatbotOverlay}>
+          <View style={styles.chatbotPopup}>
+            <View style={styles.chatbotHeader}>
+              <ThemedText style={styles.chatbotTitle}>
+                Plant Assistant
+              </ThemedText>
+              <TouchableOpacity onPress={() => setChatbotOpen(false)}>
+                <ThemedText style={styles.chatbotClose}>✕</ThemedText>
+              </TouchableOpacity>
+            </View>
+
+            <FlatList
+              data={messages}
+              keyExtractor={(item) => item.id}
+              renderItem={({ item }) => (
+                <View
+                  style={[
+                    styles.messageBubble,
+                    item.sender === "user"
+                      ? styles.userMessage
+                      : styles.botMessage,
+                  ]}
+                >
+                  <ThemedText style={styles.messageText}>
+                    {item.text}
+                  </ThemedText>
+                </View>
+              )}
+              style={styles.chatbotMessages}
+              contentContainerStyle={{
+                flexGrow: 1,
+                justifyContent: "flex-end",
+              }}
+            />
+
+            <View style={styles.chatbotInput}>
+              <TextInput
+                style={styles.textInput}
+                placeholder="Ask a question..."
+                placeholderTextColor="#999"
+                value={input}
+                onChangeText={setInput}
+                onSubmitEditing={handleSendMessage}
+              />
+              <TouchableOpacity
+                style={styles.sendButton}
+                onPress={handleSendMessage}
+              >
+                <ThemedText style={styles.sendButtonText}>Send</ThemedText>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
+    </>
   );
 }
 
@@ -177,10 +296,13 @@ export default function ResultScreen() {
   };
 
   return (
-    <ScrollView style={styles.container}>
-      <ResultHighlight result={result} id={id} />
-      <ResultData result={result} />
-    </ScrollView>
+    <View style={styles.container}>
+      <ScrollView>
+        <ResultHighlight result={result} id={id} />
+        <ResultData result={result} />
+      </ScrollView>
+      <ChatbotContainer result={result} />
+    </View>
   );
 }
 
@@ -281,6 +403,11 @@ const styles = StyleSheet.create({
     color: "#101010",
     marginBottom: 16,
   },
+  chatbotContainer: {
+    position: "absolute",
+    right: 8,
+    bottom: 8,
+  },
   cardScroll: {
     marginHorizontal: -8,
   },
@@ -323,5 +450,109 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: "#feb03b",
     fontWeight: "600",
+  },
+  chatbotButton: {
+    position: "absolute",
+    bottom: 24,
+    right: 24,
+    width: 56,
+    height: 56,
+    borderRadius: 28,
+    backgroundColor: "#feb03b",
+    justifyContent: "center",
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  chatbotButtonText: {
+    fontSize: 28,
+  },
+  chatbotOverlay: {
+    flex: 1,
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    justifyContent: "flex-end",
+  },
+  chatbotPopup: {
+    height: Dimensions.get("window").height * 0.7,
+    backgroundColor: "#fff",
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    overflow: "hidden",
+    flexDirection: "column",
+  },
+  chatbotHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    borderBottomWidth: 1,
+    borderBottomColor: "#e0e0e0",
+  },
+  chatbotTitle: {
+    fontSize: 18,
+    fontWeight: "600",
+    color: "#101010",
+  },
+  chatbotClose: {
+    fontSize: 24,
+    color: "#666",
+  },
+  chatbotMessages: {
+    flex: 1,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+  },
+  messageBubble: {
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    marginVertical: 4,
+    borderRadius: 12,
+    maxWidth: "80%",
+  },
+  userMessage: {
+    alignSelf: "flex-end",
+    backgroundColor: "#feb03b",
+  },
+  botMessage: {
+    alignSelf: "flex-start",
+    backgroundColor: "#f0f0f0",
+  },
+  messageText: {
+    fontSize: 14,
+    color: "#101010",
+  },
+  chatbotInput: {
+    flexDirection: "row",
+    paddingHorizontal: 12,
+    paddingVertical: 12,
+    borderTopWidth: 1,
+    borderTopColor: "#e0e0e0",
+    gap: 8,
+  },
+  textInput: {
+    flex: 1,
+    borderWidth: 1,
+    borderColor: "#e0e0e0",
+    borderRadius: 20,
+    paddingHorizontal: 16,
+    paddingVertical: 10,
+    fontSize: 14,
+    color: "#101010",
+  },
+  sendButton: {
+    backgroundColor: "#feb03b",
+    paddingHorizontal: 16,
+    borderRadius: 20,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  sendButtonText: {
+    fontSize: 14,
+    fontWeight: "600",
+    color: "#101010",
   },
 });
