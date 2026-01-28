@@ -27,6 +27,11 @@ export default function TabLayout() {
         tabBarLabelStyle: {
           fontSize: 12,
         },
+        tabBarStyle: {
+          elevation: 0, // 👈 Android
+          shadowColor: "transparent", // 👈 iOS
+          borderTopWidth: 0, //
+        },
         headerTransparent: true,
         headerStyle: { backgroundColor: "transparent" },
         headerShown: true,
@@ -79,15 +84,19 @@ export default function TabLayout() {
           tabBarIcon: ({ color }) => (
             <IconSymbol size={24} name="camera" color={color} />
           ),
+          headerLeft: undefined,
+          headerRight: undefined,
         }}
       />
       <Tabs.Screen
-        name="history"
+        name="results"
         options={{
-          title: "History",
+          title: "Results",
           tabBarIcon: ({ color }) => (
             <IconSymbol size={24} name="clock" color={color} />
           ),
+          headerLeft: undefined,
+          headerRight: undefined,
         }}
       />
       <Tabs.Screen

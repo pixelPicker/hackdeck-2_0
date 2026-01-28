@@ -20,10 +20,6 @@ import { LocalDatabase } from "@/services/local-db";
 import { SyncService } from "@/services/sync-service";
 import { useEffect } from "react";
 
-export const unstable_settings = {
-  anchor: "(tabs)",
-};
-
 export default function RootLayout() {
   const [loaded] = useFonts({
     Manrope_400Regular,
@@ -54,6 +50,7 @@ export default function RootLayout() {
           name="modal"
           options={{ presentation: "modal", title: "Modal" }}
         />
+        <Stack.Screen name="results" options={{ headerShown: false }} />
       </Stack>
       <StatusBar style="auto" />
     </ThemeProvider>
