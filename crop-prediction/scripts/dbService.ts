@@ -1,4 +1,4 @@
-import * as FileSystem from 'expo-file-system';
+import * as FileSystem from 'expo-file-system/legacy';
 import * as SQLite from 'expo-sqlite';
 import { Asset } from 'expo-asset';
 
@@ -10,7 +10,7 @@ import { Asset } from 'expo-asset';
 export const diagnoseOffline = async (outputArray: number[]) => {
   // 1. ARGMAX: Find the index of the highest probability
   const predictedIndex = outputArray.indexOf(Math.max(...outputArray));
-  
+
   // 2. CONFIDENCE: Get the highest probability value
   const confidence = (Math.max(...outputArray) * 100).toFixed(2);
 
@@ -33,7 +33,7 @@ export const diagnoseOffline = async (outputArray: number[]) => {
   // 4. QUERY: Get the JSON data for that index
   const db = await SQLite.openDatabaseAsync(dbName);
   const info: any = await db.getFirstAsync(
-    'SELECT * FROM diseases WHERE id = ?', 
+    'SELECT * FROM diseases WHERE id = ?',
     [predictedIndex]
   );
 

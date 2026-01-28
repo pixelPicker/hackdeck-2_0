@@ -1,4 +1,4 @@
-import { View } from "react-native";
+import { View, StyleSheet } from "react-native";
 import { ThemedText } from "./themed-text";
 import { ThemedView } from "./themed-view";
 import { IconSymbol } from "./ui/icon-symbol";
@@ -58,7 +58,7 @@ function LastScanSummary({
 
 export default LastScanSummary;
 
-const styles = {
+const styles = StyleSheet.create({
   summaryCard: {
     width: "100%",
     backgroundColor: "#f8fafc",
@@ -74,8 +74,8 @@ const styles = {
   },
   summaryRow: {
     flexDirection: "row" as const,
-    justifyContent: "space-between",
-    alignItems: "center",
+    justifyContent: "space-between" as const,
+    alignItems: "center" as const,
     marginBottom: 12,
   },
   summaryLabel: {
@@ -102,7 +102,7 @@ const styles = {
   },
   recommendationItem: {
     flexDirection: "row" as const,
-    alignItems: "center",
+    alignItems: "center" as const,
     marginBottom: 6,
   },
   recommendationText: {
@@ -111,4 +111,4 @@ const styles = {
     marginLeft: 8,
     flex: 1,
   },
-};
+});

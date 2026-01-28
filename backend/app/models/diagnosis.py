@@ -1,7 +1,7 @@
 import uuid
 from sqlalchemy import Column, String, Float, DateTime, Enum, ForeignKey, JSON
 from sqlalchemy.dialects.postgresql import UUID
-from datetime import datetime
+from datetime import datetime, timezone
 import enum
 from app.db.base import Base
 
@@ -32,8 +32,8 @@ class Diagnosis(Base):
     status = Column(Enum(DiagnosisStatus), default=DiagnosisStatus.PENDING)
     needs_retry = Column(String, nullable=True)  # "low_confidence", "poor_quality", null
     
-    created_at = Column(DateTime, default=datetime.utcnow)
-    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
+    updated_at = Column(DateTime, default=lambda: datetime.now(timezone.utc), onupdate=lambda: datetime.now(timezone.utc))
 
     def __repr__(self):
         return f"<Diagnosis {self.crop_name} - {self.disease_name}>"

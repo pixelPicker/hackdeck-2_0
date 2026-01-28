@@ -33,13 +33,13 @@ class StorageService:
             # Generate unique filename
             filename = f"{folder}/{uuid.uuid4()}.{file_extension}"
 
-            # Upload to S3
+            # Upload to S3 (without ACL - bucket policy handles permissions)
             self.s3_client.put_object(
                 Bucket=self.bucket_name,
                 Key=filename,
                 Body=file_bytes,
                 ContentType=f"image/{file_extension}",
-                ACL='public-read'  # Make publicly accessible
+                # ACL removed - modern S3 buckets use bucket policies instead
             )
 
             # Return public URL
@@ -48,7 +48,17 @@ class StorageService:
             return url
 
         except ClientError as e:
-            logger.error(f"S3 upload error: {str(e)}")
+            error_code = e.response.get('Error', {}).get('Code', 'Unknown')
+            error_message = e.response.get('Error', {}).get('Message', str(e))
+            
+            if error_code == 'NoSuchBucket':
+                logger.error(f'S3 bucket "{self.bucket_name}" does not exist')
+            elif error_code == 'AccessDenied':
+                logger.error(f'S3 access denied. Check bucket policy and IAM permissions')
+            elif error_code == 'AccessControlListNotSupported':
+                logger.error(f'Bucket does not support ACLs. Using bucket-level permissions.')
+            
+            logger.error(f'S3 upload error [{error_code}]: {error_message}')
             raise
 
     async def delete_image(self, image_url: str) -> bool:

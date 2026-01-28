@@ -1,14 +1,16 @@
 import axios from 'axios';
 import { Platform } from 'react-native';
 
-// IMPORTANT: For physical devices, replace '192.168.x.x' with your computer's IP address
-// Run 'ipconfig' (Windows) or 'ifconfig' (Mac/Linux) to find your local IP
-// For emulators/simulators, the default values below work
+// ⚠️ IMPORTANT: Update this URL after starting ngrok!
+// Run: ngrok http 8000
+// Then copy the HTTPS URL here (e.g., https://abc123.ngrok.io)
+const NGROK_URL = 'https://3dc9bca73771.ngrok-free.app/api/v1';
 
+// Fallback URLs for different platforms
 const BASE_URL = Platform.select({
-    android: 'http://10.0.2.2:8000/api/v1',  // Android emulator
-    ios: 'http://localhost:8000/api/v1',      // iOS simulator
-    default: 'http://192.168.1.12:8000/api/v1',  // Physical device - UPDATE THIS IP!
+    android: NGROK_URL,              // Use ngrok for Android emulator
+    ios: NGROK_URL,                  // Use ngrok for iOS simulator
+    default: NGROK_URL,              // Use ngrok for physical device
 });
 
 console.log('📡 API Base URL:', BASE_URL);

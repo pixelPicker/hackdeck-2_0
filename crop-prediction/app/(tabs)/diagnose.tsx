@@ -9,6 +9,8 @@ import { CameraScreen } from "@/components/camera-screen";
 import { PhotoPreview } from "@/components/photo-preview";
 import { Image } from "expo-image";
 import { Pulse } from "@/components/ui/Pulse";
+import { diagnosisApi } from "@/services/api";
+import { LocalDatabase } from "@/services/local-db";
 
 type ScreenState = "empty" | "camera" | "preview" | "processing";
 
@@ -33,20 +35,45 @@ export default function TabTwoScreen() {
     setScreenState("camera");
   };
 
-  const handleSubmit = (photoUri: string) => {
+  const handleSubmit = async (photoUri: string) => {
     setIsModelProcessing(true);
     setScreenState("processing");
-    // TODO: Call ML model API here instead of faking it and save data to local storage
-    setTimeout(() => {
+
+    try {
+      // Call backend API for diagnosis
+      const result = await diagnosisApi.uploadScan(photoUri);
+
+      // Save to local database
+      await LocalDatabase.saveScan({
+        image_uri: photoUri,
+        crop_name: result.cropName,
+        disease_name: result.diseaseName,
+        confidence: result.confidence,
+        quality_score: result.qualityScore || 85,
+        timestamp: new Date().toISOString(),
+        is_synced: 1, // Mark as synced since we got result from backend
+      });
+
+      console.log("✅ Diagnosis saved locally:", result);
+
+      // Navigate to results with the scan data
       setSelectedPhotoUri(null);
       setIsModelProcessing(false);
       setScreenState("empty");
-      router.push({ pathname: "/results/[id]", params: { id: "48395738" } });
-    }, 2000);
 
-    // setSelectedPhotoUri(null);
-    // setIsModelProcessing(false);
-    // setScreenState("empty");
+      // Navigate to results screen (will show latest scan)
+      router.push("/history");
+    } catch (error) {
+      console.error("Diagnosis error:", error);
+      Alert.alert(
+        "❌ Error",
+        "Failed to diagnose the image. Please check your internet connection and try again.",
+      );
+
+      // Go back to preview on error
+      setIsModelProcessing(false);
+      setScreenState("preview");
+    }
   };
 
   if (screenState === "camera") {
