@@ -121,48 +121,45 @@ export function CameraScreen({ onPhotoCapture }: CameraScreenProps) {
         facing="back"
         flash={flashMode}
         onCameraReady={() => setCameraReady(true)}
-      >
-        <View style={styles.bottomContent}>
-          <TouchableOpacity
-            style={styles.uploadButton}
-            onPress={handleUploadFromGallery}
-            disabled={isCapturing}
-          >
-            <MaterialCommunityIcons
-              name="image-plus"
-              size={28}
-              color="#444444"
-            />
-          </TouchableOpacity>
+      />
 
-          <TouchableOpacity
-            style={[
-              styles.shutterButton,
-              isCapturing && styles.shutterButtonDisabled,
-            ]}
-            onPress={handleTakePicture}
-            disabled={isCapturing}
-          >
-            {isCapturing ? (
-              <ActivityIndicator size="large" color="white" />
-            ) : (
-              <View style={styles.shutterButtonInner} />
-            )}
-          </TouchableOpacity>
+      {/* Controls overlay - outside CameraView to avoid warning */}
+      <View style={styles.bottomContent}>
+        <TouchableOpacity
+          style={styles.uploadButton}
+          onPress={handleUploadFromGallery}
+          disabled={isCapturing}
+        >
+          <MaterialCommunityIcons name="image-plus" size={28} color="#444444" />
+        </TouchableOpacity>
 
-          <TouchableOpacity
-            style={styles.flashButton}
-            onPress={toggleFlash}
-            disabled={isCapturing}
-          >
-            <MaterialCommunityIcons
-              name={getFlashIcon() as any}
-              size={28}
-              color="white"
-            />
-          </TouchableOpacity>
-        </View>
-      </CameraView>
+        <TouchableOpacity
+          style={[
+            styles.shutterButton,
+            isCapturing && styles.shutterButtonDisabled,
+          ]}
+          onPress={handleTakePicture}
+          disabled={isCapturing}
+        >
+          {isCapturing ? (
+            <ActivityIndicator size="large" color="white" />
+          ) : (
+            <View style={styles.shutterButtonInner} />
+          )}
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={styles.flashButton}
+          onPress={toggleFlash}
+          disabled={isCapturing}
+        >
+          <MaterialCommunityIcons
+            name={getFlashIcon() as any}
+            size={28}
+            color="white"
+          />
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
