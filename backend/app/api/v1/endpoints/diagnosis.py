@@ -47,14 +47,21 @@ async def upload_and_diagnose(
 
         # Upload to S3
         file_ext = image.filename.split(".")[-1] if "." in image.filename else "jpg"
-        image_url = await storage_service.upload_image(image_bytes, file_ext, "diagnoses")
+        try:
+            image_url = await storage_service.upload_image(image_bytes, file_ext, "diagnoses")
+        except Exception as upload_error:
+            logger.warning(f"S3 upload failed (continuing without upload): {upload_error}")
 
         # Generate heatmap (optional)
         heatmap_bytes = explainability_service.generate_heatmap_simple(
             image_bytes, 
             prediction_result["confidence"]
         )
-        heatmap_url = await storage_service.upload_image(heatmap_bytes, "jpg", "heatmaps")
+        heatmap_url = None
+        try:
+            heatmap_url = await storage_service.upload_image(heatmap_bytes, "jpg", "heatmaps")
+        except Exception as heatmap_error:
+            logger.warning(f"Heatmap upload failed (continuing without upload): {heatmap_error}")
 
         # Anonymize location if provided
         grid_location = None
@@ -102,15 +109,16 @@ async def upload_and_diagnose(
             diagnosis_id = str(uuid.uuid4())  # Generate temporary ID
             # Create a mock diagnosis object for response
             class MockDiagnosis:
-                id = uuid.UUID(diagnosis_id)
-                created_at = datetime.now(timezone.utc)
-                crop_name = prediction_result["cropName"]
-                disease_name = prediction_result["diseaseName"]
-                confidence_score = prediction_result["confidence"]
-                needs_retry = prediction_result.get("needsRetry")
-                image_url = image_url
-                image_quality_score = prediction_result.get("qualityScore", 85)
-                model_version = prediction_result.get("modelVersion", "1.0")
+                def __init__(self):
+                    self.id = uuid.UUID(diagnosis_id)
+                    self.created_at = datetime.utcnow()
+                    self.crop_name = prediction_result["cropName"]
+                    self.disease_name = prediction_result["diseaseName"]
+                    self.confidence_score = prediction_result["confidence"]
+                    self.needs_retry = prediction_result.get("needsRetry")
+                    self.image_url = image_url or "mock://no-upload"
+                    self.image_quality_score = prediction_result.get("qualityScore", 85)
+                    self.model_version = prediction_result.get("modelVersion", "1.0")
             diagnosis = MockDiagnosis()
 
         # Build response compatible with mobile app
@@ -130,8 +138,15 @@ async def upload_and_diagnose(
                 issues=[]
             ),
             top_3_predictions=[
-                PredictionItem(**pred) for pred in prediction_result.get("top3Predictions", [])
-            ],
+    PredictionItem(
+        class_name=pred["diseaseName"],
+        crop_name=pred["cropName"],
+        disease_name=pred["diseaseName"],
+        confidence=pred["confidence"],
+    )
+    for pred in prediction_result.get("top3Predictions", [])
+],
+
             suggestions=prediction_result.get("suggestions", []),
             model_version=diagnosis.model_version,
             heatmap_url=heatmap_url,
