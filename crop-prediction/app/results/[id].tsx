@@ -6,9 +6,10 @@ import {
   Dimensions,
   Linking,
 } from "react-native";
-import { ThemedView } from "@/components/themed-view";
+
 import { ThemedText } from "@/components/themed-text";
 import { DiagnosisResult } from "@/types/Result";
+import CircularProgress from "@/components/ui/CircularProgress";
 
 function ResultHighlight({
   result,
@@ -17,7 +18,7 @@ function ResultHighlight({
   result: DiagnosisResult;
   id: string;
 }) {
-  const circleSize = 150;
+  // `result.confidence` will be passed to the CircularProgress component
 
   return (
     <View style={styles.highlightContainer}>
@@ -45,32 +46,21 @@ function ResultHighlight({
       </View>
 
       <View style={styles.confidenceChart}>
-        <View style={styles.circleContainer}>
-          <View style={styles.circleBackground} />
-          <View
-            style={[
-              styles.circleProgress,
-              {
-                width: result.confidence,
-                height: circleSize,
-                borderRadius: circleSize / 2,
-                borderLeftColor:
-                  result.confidence > 80
-                    ? "#4CAF50"
-                    : result.confidence > 60
-                      ? "#FF9800"
-                      : "#F44336",
-                transform: [{ rotate: "-90deg" }],
-              },
-            ]}
-          />
+        <CircularProgress
+          progress={result.confidence}
+          size={150}
+          strokeWidth={12}
+        >
           <View style={styles.circleCenter}>
             <ThemedText style={styles.confidencePercent}>
-              {result.confidence}%
+              {Number(result.confidence).toFixed(
+                Number.isInteger(result.confidence) ? 0 : 1,
+              )}
+              %
             </ThemedText>
             <ThemedText style={styles.confidenceLabel}>Confidence</ThemedText>
           </View>
-        </View>
+        </CircularProgress>
       </View>
     </View>
   );
@@ -180,7 +170,7 @@ export default function ResultScreen() {
 
   const result: DiagnosisResult = {
     diagnosis: "Late Blight",
-    confidence: 98.5,
+    confidence: 91,
     treatment: "Apply copper-based fungicide",
     prevention: "Avoid overhead watering",
     isSevere: true,
@@ -255,8 +245,10 @@ const styles = StyleSheet.create({
     width: 150,
     height: 150,
     borderRadius: 75,
-    backgroundColor: "#ddd",
+    borderWidth: 12,
+    borderColor: "#e0e0e0",
   },
+
   circleProgress: {
     position: "absolute",
     borderWidth: 12,
