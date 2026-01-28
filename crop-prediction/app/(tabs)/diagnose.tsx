@@ -11,6 +11,7 @@ import { Image } from "expo-image";
 import { Pulse } from "@/components/ui/Pulse";
 import { diagnosisApi } from "@/services/api";
 import { LocalDatabase } from "@/services/local-db";
+import { DiagnosisResult } from "@/types/Result";
 
 type ScreenState = "empty" | "camera" | "preview" | "processing";
 
@@ -41,28 +42,31 @@ export default function TabTwoScreen() {
 
     try {
       // Call backend API for diagnosis
-      const result = await diagnosisApi.uploadScan(photoUri);
+      const result = (await diagnosisApi.uploadScan(
+        photoUri,
+      )) as unknown as DiagnosisResult;
 
       // Save to local database
-      await LocalDatabase.saveScan({
-        image_uri: photoUri,
-        crop_name: result.cropName,
-        disease_name: result.diseaseName,
-        confidence: result.confidence,
-        quality_score: result.qualityScore || 85,
-        timestamp: new Date().toISOString(),
-        is_synced: 1, // Mark as synced since we got result from backend
-      });
+      // await LocalDatabase.saveScan({
+      //   image_uri: photoUri,
+      //   crop_name: result.cropName,
+      //   disease_name: result.diseaseName,
+      //   confidence: result.confidence,
+      //   quality_score: result.qualityScore || 85,
+      //   timestamp: new Date().toISOString(),
+      //   is_synced: 1, // Mark as synced since we got result from backend
+      // });
 
       console.log("✅ Diagnosis saved locally:", result);
 
       // Navigate to results with the scan data
       setSelectedPhotoUri(null);
       setIsModelProcessing(false);
-      setScreenState("empty");
+
+      // setScreenState("empty");
 
       // Navigate to results screen (will show latest scan)
-      router.push("/history");
+      router.push({ pathname: "/results/[id]", params: { id: result.id } });
     } catch (error) {
       console.error("Diagnosis error:", error);
       Alert.alert(
