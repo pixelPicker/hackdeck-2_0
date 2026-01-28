@@ -81,7 +81,7 @@ function ResultHighlight({
         >
           <View style={styles.circleCenter}>
             <ThemedText style={styles.confidencePercent}>
-              {Number(result.confidence) * 100}%
+              {(Number(result.confidence) * 100).toFixed(2)}%
             </ThemedText>
             <ThemedText style={styles.confidenceLabel}>Confidence</ThemedText>
           </View>

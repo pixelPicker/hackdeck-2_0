@@ -76,13 +76,9 @@ export default function TabTwoScreen() {
 
       // Go back to preview on error
       setIsModelProcessing(false);
-      setScreenState("preview");
+      setScreenState("empty");
     }
   };
-
-  if (screenState === "camera") {
-    return <CameraScreen onPhotoCapture={handlePhotoCapture} />;
-  }
 
   if (screenState === "preview" && selectedPhotoUri) {
     return (
@@ -110,19 +106,8 @@ export default function TabTwoScreen() {
       </ThemedView>
     );
   }
-  return (
-    <ThemedView style={styles.container}>
-      <IconSymbol name="leaf" size={48} color="#22c55e" />
 
-      <ThemedText type="title" style={styles.title}>
-        No scans yet
-      </ThemedText>
-
-      <ThemedText style={styles.subtitle}>
-        Click the camera button below to start a crop diagnosis
-      </ThemedText>
-    </ThemedView>
-  );
+  return <CameraScreen onPhotoCapture={handlePhotoCapture} />;
 }
 
 const styles = StyleSheet.create({
